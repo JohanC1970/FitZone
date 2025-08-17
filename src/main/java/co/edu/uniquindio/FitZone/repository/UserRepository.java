@@ -13,5 +13,39 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /**
+     * Verifica si un usuario con el correo electrónico dado existe.
+     * @param email La dirección de correo eletrónico a verificar
+     * @return true si el usuario existe, false en caso contrario.
+     */
+    boolean existsByEmail(String email);
+
+    /**
+     * Verifica si un usuario con el número de documento dado existe.
+     * @param documentNumber El número de documento a verificar.
+     * @return true si el usuario existe, false en caso contrario.
+     */
+    boolean existsByDocumentNumber(String documentNumber);
+
+    /**
+     * Busca un usuario por su dirección de correo electrónico.
+     * @param email La dirección de correo electrónico del usuario.
+     * @return Un objeto Optional que contiene al usuario si se encuentra.
+     */
+    Optional<User> findByEmail(String email);
+
+    /**
+     * Busca un usuario por su número de documento.
+     * @param documentNumber El número de documento del usuario.
+     * @return Un objeto Optional que contiene el usuario si se encuentra.
+     */
+    Optional<User> findByDocumentNumber(String documentNumber);
+
+    /**
+     * Busca una lista de usuarios que estén activos.
+     * @return Una lista de objetos User que estén activos.
+     */
+    List<User>findByIsActiveTrue();
+
 
 }

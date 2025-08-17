@@ -25,36 +25,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
-
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false)
-    private DocumentType documentType;
-
-    @Column(name = "document_number", nullable = false, unique = true, length = 50)
-    private String documentNumber;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
-    private String phoneNumber;
-
-    @Column(name = "birth_date", nullable = false)
-    private LocalDate birthDate;
-
-    @Column(name = "emergency_contact_name", nullable = false, length = 20)
-    private String emergencyContactPhone;
-
-    @Column(name = "medical_conditions", length = 255)
-    private String medicalConditions;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "principal_sede_id")
@@ -73,30 +49,23 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Embedded
+    private PersonalInformation personalInformation;
 
-
-    public User(Long idUser, String firstName, String lastName, String email, DocumentType documentType, String documentNumber, String password, String phoneNumber, LocalDate birthDate, String emergencyContactPhone, String medicalConditions, Sede principalSede, UserRole role, boolean isActive) {
+    public User(Long idUser, String email, String password, Sede principalSede, UserRole role, PersonalInformation personalInformation) {
         this.idUser = idUser;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
-        this.documentType = documentType;
-        this.documentNumber = documentNumber;
         this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.birthDate = birthDate;
-        this.emergencyContactPhone = emergencyContactPhone;
-        this.medicalConditions = medicalConditions;
         this.principalSede = principalSede;
         this.role = role;
-        this.isActive = isActive;
-
+        this.personalInformation = personalInformation;
     }
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        isActive = true;
     }
 
     @PreUpdate
