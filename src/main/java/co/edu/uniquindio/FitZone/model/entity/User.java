@@ -52,6 +52,12 @@ public class User {
     @Embedded
     private PersonalInformation personalInformation;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
+    @Column(name = "password_reset_token_expiry_date")
+    private LocalDateTime passwordResetTokenExpiryDate;
+
     public User(Long idUser, String email, String password, Sede principalSede, UserRole role, PersonalInformation personalInformation) {
         this.idUser = idUser;
         this.email = email;

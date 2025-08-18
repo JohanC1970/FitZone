@@ -47,5 +47,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     List<User>findByIsActiveTrue();
 
+    /**
+     * Busca un usuario por su token de restablecimiento de contraseña.
+     * @param passwordResetToken El token de restablecimiento de contraseña del usuario.
+     * @return Un objeto Optional que contiene al usuario si se encuentra.
+     */
+    Optional<User> findByPasswordResetToken(String passwordResetToken);
 
 }
