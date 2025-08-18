@@ -5,6 +5,9 @@ import co.edu.uniquindio.FitZone.dto.request.ResetPasswordRequest;
 
 import java.io.IOException;
 
+/**
+ * Interfaz que define los metodos del servicio de autenticacion
+ */
 public interface IAuthService {
 
     /**

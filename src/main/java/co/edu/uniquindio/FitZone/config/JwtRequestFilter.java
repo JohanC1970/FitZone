@@ -15,6 +15,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * JwtRequestFilter es una clase que extiende OncePerRequestFilter y se utiliza para filtrar las solicitudes HTTP
+ * y verificar la validez del token JWT. Si el token es válido, se establece la autenticación en el contexto de seguridad
+ * de Spring Security, lo que permite que el usuario acceda a los recursos protegidos de la aplicación.
+ */
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;

@@ -14,6 +14,11 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 
+/**
+ * Servicio para enviar correos electrónicos utilizando SendGrid.
+ * Este servicio permite enviar correos electrónicos simples o correos electrónicos
+ * basados en plantillas de Thymeleaf.
+ */
 @Service
 public class EmailService {
 

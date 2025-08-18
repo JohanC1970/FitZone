@@ -4,6 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Clase que representa la solicitud para restablecer la contraseña de un usuario.
+ * Contiene el token de verificación y la nueva contraseña.
+ */
 public record ResetPasswordRequest(
         String token,
 

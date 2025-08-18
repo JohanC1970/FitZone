@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Utilidad para generar y validar tokens JWT.
+ * Utiliza una clave secreta y un tiempo de expiración configurables.
+ */
 @Component
 public class JwtUtil {
 

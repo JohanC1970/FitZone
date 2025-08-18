@@ -19,6 +19,10 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ * Implementación del servicio de autenticación.
+ * Proporciona métodos para iniciar sesión, solicitar restablecimiento de contraseña y restablecer la contraseña.
+ */
 public class AuthServiceImpl implements IAuthService {
 
     private final AuthenticationManager authenticationManager;

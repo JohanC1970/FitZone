@@ -13,6 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Configuración de seguridad para la aplicación FitZone.
+ * Define las reglas de seguridad, incluyendo autenticación y autorización.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {

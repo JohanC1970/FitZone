@@ -12,8 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Captura todas las excepciones registradas y las transforma en un formato de respuesta para
- * notificar el error
+ * Clase que maneja las excepciones globales de la aplicación
+ * Esta clase intercepta las excepciones lanzadas por los controladores
+ * y las convierte en respuestas HTTP adecuadas.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {

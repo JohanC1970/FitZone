@@ -8,6 +8,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que implementa UserDetailsService para cargar los detalles del usuario
+ * a partir de su correo electrónico.
+ * Esta clase es utilizada por Spring Security para autenticar usuarios.
+ */
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
