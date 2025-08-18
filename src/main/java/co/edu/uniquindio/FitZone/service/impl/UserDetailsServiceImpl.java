@@ -5,6 +5,7 @@ import co.edu.uniquindio.FitZone.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  * a partir de su correo electrónico.
  * Esta clase es utilizada por Spring Security para autenticar usuarios.
  */
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
