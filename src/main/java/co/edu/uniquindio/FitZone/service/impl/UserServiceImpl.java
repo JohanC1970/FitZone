@@ -11,7 +11,6 @@ import co.edu.uniquindio.FitZone.service.interfaces.IUserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +43,7 @@ public class UserServiceImpl implements IUserService{
             throw new ResourceAlreadyExistsException("El email ya se encuentre registrado.");
         }
 
-        if(userRepository.existsByDocumentNumber(request.documentNumber())){
+        if(userRepository.existsByPersonalInformation_DocumentNumber(request.documentNumber())){
             throw new ResourceAlreadyExistsException("El número de documento ya se encuentra registrado.");
         }
         //Mapear el DTP a la entidad User
@@ -110,7 +109,7 @@ public class UserServiceImpl implements IUserService{
         }
 
         // 3. Validar que el nuevo número de documento no exista en otro usuario
-        if (!existingUser.getPersonalInformation().getDocumentNumber().equals(request.documentNumber()) && userRepository.existsByDocumentNumber(request.documentNumber())) {
+        if (!existingUser.getPersonalInformation().getDocumentNumber().equals(request.documentNumber()) && userRepository.existsByPersonalInformation_DocumentNumber(request.documentNumber())) {
             throw new ResourceAlreadyExistsException("El nuevo número de documento ya se encuentra registrado por otro usuario.");
         }
 
@@ -235,7 +234,7 @@ public class UserServiceImpl implements IUserService{
      */
     @Override
     public UserResponse getUserByDocumentNumber(String documentNumber) {
-        User user = userRepository.findByDocumentNumber(documentNumber)
+        User user = userRepository.findByPersonalInformation_DocumentNumber(documentNumber)
                 .orElseThrow( () -> new UserNotFoundException("El número de documento ingresado no existe"));
 
         return new UserResponse(

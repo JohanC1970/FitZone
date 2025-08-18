@@ -14,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
  * Implementación del servicio de autenticación.
  * Proporciona métodos para iniciar sesión, solicitar restablecimiento de contraseña y restablecer la contraseña.
  */
+@Service
 public class AuthServiceImpl implements IAuthService {
 
     private final AuthenticationManager authenticationManager;

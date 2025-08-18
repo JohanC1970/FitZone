@@ -3,7 +3,6 @@ package co.edu.uniquindio.FitZone.repository;
 import co.edu.uniquindio.FitZone.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param documentNumber El número de documento a verificar.
      * @return true si el usuario existe, false en caso contrario.
      */
-    boolean existsByDocumentNumber(String documentNumber);
+    boolean existsByPersonalInformation_DocumentNumber(String documentNumber);
 
     /**
      * Busca un usuario por su dirección de correo electrónico.
@@ -39,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param documentNumber El número de documento del usuario.
      * @return Un objeto Optional que contiene el usuario si se encuentra.
      */
-    Optional<User> findByDocumentNumber(String documentNumber);
+    Optional<User> findByPersonalInformation_DocumentNumber(String documentNumber);
 
     /**
      * Busca una lista de usuarios que estén activos.
