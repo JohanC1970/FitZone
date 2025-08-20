@@ -27,7 +27,7 @@ public interface IUserService {
      * @param request objeto que contiene los datos actualizados del usuario
      * @return UserResponse objeto que contiene la información actualizada del usuario
      */
-    UserResponse uptadeUser(Long idUser, CreateUserRequest request);
+    UserResponse updateUser(Long idUser, CreateUserRequest request);
 
     /**
      * Elimina un usuario del sistema.

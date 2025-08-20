@@ -29,6 +29,17 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
     }
 
+    @ExceptionHandler(FranchiseNotFoundException.class)
+    public ResponseEntity<Object> handleFranchiseNotFoundException(FranchiseNotFoundException exception){
+        return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<Object> handleLocationNotFoundException(LocationNotFoundException exception){
+        return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
+    }
+
+
     // Manejo de errores de validación
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {

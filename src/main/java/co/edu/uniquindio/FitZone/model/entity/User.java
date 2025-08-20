@@ -1,13 +1,11 @@
 package co.edu.uniquindio.FitZone.model.entity;
 
-import co.edu.uniquindio.FitZone.model.enums.DocumentType;
 import co.edu.uniquindio.FitZone.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -31,10 +29,13 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_location_id")
+    private Location mainLocation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "principal_sede_id")
-    private Sede principalSede;
+    @JoinColumn(name = "membership_id")
+    private Membership membership;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -58,11 +59,11 @@ public class User {
     @Column(name = "password_reset_token_expiry_date")
     private LocalDateTime passwordResetTokenExpiryDate;
 
-    public User(Long idUser, String email, String password, Sede principalSede, UserRole role, PersonalInformation personalInformation) {
+    public User(Long idUser, String email, String password, Location mainLocation, UserRole role, PersonalInformation personalInformation) {
         this.idUser = idUser;
         this.email = email;
         this.password = password;
-        this.principalSede = principalSede;
+        this.mainLocation = mainLocation;
         this.role = role;
         this.personalInformation = personalInformation;
     }

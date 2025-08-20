@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService{
      * @return
      */
     @Override
-    public UserResponse uptadeUser(Long idUser, CreateUserRequest request) {
+    public UserResponse updateUser(Long idUser, CreateUserRequest request) {
         // 1. Buscar el usuario por su ID. Si no existe, lanzar una excepción.
         User existingUser = userRepository.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con el ID: " + idUser));
@@ -115,9 +115,6 @@ public class UserServiceImpl implements IUserService{
 
         // 4. Actualizar los campos de la entidad
         existingUser.setEmail(request.email());
-        if (request.password() != null && !request.password().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(request.password()));
-        }
         existingUser.setRole(request.role());
 
         // 5. Actualizar los objetos embebidos
@@ -153,12 +150,12 @@ public class UserServiceImpl implements IUserService{
      */
     @Override
     public void deleteUser(Long idUser) {
-        Optional<User> user = userRepository.findById(idUser);
-        if(user.isPresent()){
-            user.get().setActive(false);
-            userRepository.save(user.get());
-        }
-        throw new ResourceAlreadyExistsException("El id ingresado no corresponde a ningun usuario registrado.");
+
+        User user = userRepository.findById(idUser)
+                .orElseThrow(()-> new UserNotFoundException("Usuario no encontrado con el ID: " + idUser));
+
+        user.setActive(false);
+        userRepository.save(user);
     }
 
     /**

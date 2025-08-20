@@ -20,7 +20,7 @@ import java.time.LocalDate;
  * @param birthDate
  * @param emergencyContactPhone
  * @param medicalConditions
- * @param principalSedeId
+ * @param mainLocationId
  * @param role
  */
 public record CreateUserRequest(
@@ -69,7 +69,7 @@ public record CreateUserRequest(
 
         String medicalConditions,
 
-        Long principalSedeId,
+        Long mainLocationId,
 
         @NotBlank(message = "El rol del usuario no puede estar vacío")
         UserRole role
