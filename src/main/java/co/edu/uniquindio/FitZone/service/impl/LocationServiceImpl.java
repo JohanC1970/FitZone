@@ -15,6 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación del servicio para gestionar las sedes de la franquicia FitZone.
+ * Proporciona métodos para registrar, actualizar, eliminar y consultar sedes.
+ * Utiliza repositorios para interactuar con la base de datos y maneja excepciones
+ * específicas para casos como sede no encontrada o nombre ya registrado.
+ */
 @Service
 public class LocationServiceImpl implements ILocationService {
 

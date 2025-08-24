@@ -4,6 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Clase que representa una solicitud para crear o actualizar una ubicación.
+ * Contiene validaciones para los campos de nombre, dirección y número de teléfono.
+ */
 public record LocationRequest(
 
         @NotBlank(message = "El nombre no puede estar vacío")

@@ -1,6 +1,6 @@
 package co.edu.uniquindio.FitZone.service.interfaces;
 
-import co.edu.uniquindio.FitZone.dto.request.CreateUserRequest;
+import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface IUserService {
      * @param request objeto que contiene los datos del usuario a registrar
      * @return UserResonse objeto que representa la respuesta del registro del usuario
      */
-    UserResponse registerUser(CreateUserRequest request);
+    UserResponse registerUser(UserRequest request);
 
     /**
      * Actualiza la información de un usuario existente.
@@ -27,7 +27,7 @@ public interface IUserService {
      * @param request objeto que contiene los datos actualizados del usuario
      * @return UserResponse objeto que contiene la información actualizada del usuario
      */
-    UserResponse updateUser(Long idUser, CreateUserRequest request);
+    UserResponse updateUser(Long idUser, UserRequest request);
 
     /**
      * Elimina un usuario del sistema.

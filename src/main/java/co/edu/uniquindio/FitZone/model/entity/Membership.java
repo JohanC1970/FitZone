@@ -9,6 +9,11 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Entity que representa una membresía en el sistema FitZone.
+ * Contiene información sobre el usuario asociado, tipo de membresía,
+ * ubicación, fechas de inicio y fin, estado, precio y detalles de suspensión.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,10 +40,10 @@ public class Membership {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    private LocalDate endDate;
+
     @Enumerated(EnumType.STRING)
     private MembershipStatus status;
-
-    private LocalDate endDate;
 
     private BigDecimal price;
 

@@ -1,7 +1,7 @@
 package co.edu.uniquindio.FitZone.controller;
 
 
-import co.edu.uniquindio.FitZone.dto.request.CreateUserRequest;
+import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 import co.edu.uniquindio.FitZone.service.interfaces.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +23,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserResponse registerUser(@RequestBody CreateUserRequest request){
+    public UserResponse registerUser(@RequestBody UserRequest request){
         return userService.registerUser(request);
     }
 
 
     @PutMapping("/{idUser}")
-    public UserResponse updateUser(@PathVariable Long idUser, @RequestBody CreateUserRequest request) {
+    public UserResponse updateUser(@PathVariable Long idUser, @RequestBody UserRequest request) {
         return userService.updateUser(idUser, request);
     }
 

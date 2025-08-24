@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * ENTITY que representa una franquicia en el sistema.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

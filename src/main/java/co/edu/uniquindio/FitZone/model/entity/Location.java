@@ -8,6 +8,11 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity que representa una sede de una franquicia en el sistema FitZone.
+ * Contiene información sobre la sede, como su nombre, dirección, número de teléfono,
+ * la franquicia a la que pertenece, los miembros asociados y su estado de actividad.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

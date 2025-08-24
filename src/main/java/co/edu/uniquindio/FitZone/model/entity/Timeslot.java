@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * Entity que representa un intervalo de tiempo (horario) en el sistema.
+ * Cada intervalo de tiempo está asociado a un día de la semana y a una franquicia específica
+ */
 @Getter
 @Setter
 @NoArgsConstructor

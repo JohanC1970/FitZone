@@ -23,7 +23,7 @@ import java.time.LocalDate;
  * @param mainLocationId
  * @param role
  */
-public record CreateUserRequest(
+public record UserRequest(
 
         @NotBlank(message = "El nombre no puede estar vacío")
         @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")
