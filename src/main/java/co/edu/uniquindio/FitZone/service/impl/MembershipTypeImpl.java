@@ -3,6 +3,7 @@ package co.edu.uniquindio.FitZone.service.impl;
 import co.edu.uniquindio.FitZone.dto.request.MembershipTypeRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipTypeResponse;
 import co.edu.uniquindio.FitZone.exception.MembershipTypeNotFoundException;
+import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.model.entity.MembershipType;
 import co.edu.uniquindio.FitZone.model.enums.MembershipTypeName;
 import co.edu.uniquindio.FitZone.repository.MembershipTypeRepository;
@@ -25,7 +26,7 @@ public class MembershipTypeImpl implements IMembershipTypeService {
     public MembershipTypeResponse createMembershipType(MembershipTypeRequest membershipTypeRequest) {
 
         if(membershipTypeRepository.existsByName(membershipTypeRequest.name())){
-            throw new MembershipTypeNotFoundException("El tipo de membresía ya existe");
+            throw new ResourceAlreadyExistsException("El tipo de membresía ya existe");
         }
 
         MembershipType membershipType = getMembershipType(membershipTypeRequest);
@@ -52,7 +53,7 @@ public class MembershipTypeImpl implements IMembershipTypeService {
                 .orElseThrow(() -> new MembershipTypeNotFoundException("Tipo de membresía no encontrado"));
 
        if(!membershipType.getName().equals(request.name()) && membershipTypeRepository.existsByName(request.name())){
-           throw new MembershipTypeNotFoundException("El tipo de membresía ya existe");
+           throw new ResourceAlreadyExistsException("El tipo de membresía ya existe");
        }
 
         membershipType.setName(request.name());
