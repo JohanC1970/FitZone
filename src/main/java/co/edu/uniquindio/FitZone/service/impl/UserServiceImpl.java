@@ -1,6 +1,6 @@
 package co.edu.uniquindio.FitZone.service.impl;
 
-import co.edu.uniquindio.FitZone.dto.request.CreateUserRequest;
+import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.exception.UserNotFoundException;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Clase SERVICE - Que implementa los métodos declarados en IUserService
@@ -36,7 +35,7 @@ public class UserServiceImpl implements IUserService{
      * @return UserResponse objeto de respuesta, contiene alguna información del usuario registrado
      */
     @Override
-    public UserResponse registerUser(CreateUserRequest request) {
+    public UserResponse registerUser(UserRequest request) {
 
         //Validar que el email y el número de documento no existan
         if(userRepository.existsByEmail(request.email())){
@@ -78,7 +77,7 @@ public class UserServiceImpl implements IUserService{
      * @param request
      * @return
      */
-    private static PersonalInformation getPersonalInformation(CreateUserRequest request) {
+    private static PersonalInformation getPersonalInformation(UserRequest request) {
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setFirstName(request.firstName());
         personalInformation.setLastName(request.lastName());
@@ -98,7 +97,7 @@ public class UserServiceImpl implements IUserService{
      * @return
      */
     @Override
-    public UserResponse updateUser(Long idUser, CreateUserRequest request) {
+    public UserResponse updateUser(Long idUser, UserRequest request) {
         // 1. Buscar el usuario por su ID. Si no existe, lanzar una excepción.
         User existingUser = userRepository.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con el ID: " + idUser));
@@ -118,15 +117,7 @@ public class UserServiceImpl implements IUserService{
         existingUser.setRole(request.role());
 
         // 5. Actualizar los objetos embebidos
-        PersonalInformation personalInfo = existingUser.getPersonalInformation();
-        personalInfo.setFirstName(request.firstName());
-        personalInfo.setLastName(request.lastName());
-        personalInfo.setDocumentType(request.documentType());
-        personalInfo.setDocumentNumber(request.documentNumber());
-        personalInfo.setBirthDate(request.birthDate());
-        personalInfo.setPhoneNumber(request.phoneNumber());
-        personalInfo.setMedicalConditions(request.medicalConditions());
-        personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
+        PersonalInformation personalInfo = getPersonalInformation(request, existingUser);
         existingUser.setPersonalInformation(personalInfo);
 
         // 6. Guardar los cambios
@@ -142,6 +133,25 @@ public class UserServiceImpl implements IUserService{
                 updatedUser.getRole(),
                 updatedUser.getCreatedAt()
         );
+    }
+
+    /**
+     * Actualiza la información personal del usuario existente con los datos del request
+     * @param request Objeto que contiene los datos actualizados del usuario
+     * @param existingUser Usuario existente en la base de datos
+     * @return Objeto PersonalInformation actualizado
+     */
+    private static PersonalInformation getPersonalInformation(UserRequest request, User existingUser) {
+        PersonalInformation personalInfo = existingUser.getPersonalInformation();
+        personalInfo.setFirstName(request.firstName());
+        personalInfo.setLastName(request.lastName());
+        personalInfo.setDocumentType(request.documentType());
+        personalInfo.setDocumentNumber(request.documentNumber());
+        personalInfo.setBirthDate(request.birthDate());
+        personalInfo.setPhoneNumber(request.phoneNumber());
+        personalInfo.setMedicalConditions(request.medicalConditions());
+        personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
+        return personalInfo;
     }
 
     /**

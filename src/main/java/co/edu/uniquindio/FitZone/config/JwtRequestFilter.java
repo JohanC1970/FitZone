@@ -32,7 +32,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-
+    /**
+     * doFilterInternal es un método que se ejecuta para cada solicitud HTTP y verifica la validez del token JWT.
+     * Si el token es válido, se establece la autenticación en el contexto de seguridad de Spring Security.
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 

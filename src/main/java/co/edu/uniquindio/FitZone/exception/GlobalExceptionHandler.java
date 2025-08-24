@@ -39,6 +39,10 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
     }
 
+    @ExceptionHandler(MembershipTypeNotFoundException.class)
+    public ResponseEntity<Object> handleMembershipTypeNotFoundException(MembershipTypeNotFoundException exception){
+        return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
+    }
 
     // Manejo de errores de validación
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -2,6 +2,10 @@ package co.edu.uniquindio.FitZone.model.enums;
 
 import lombok.Getter;
 
+/**
+ * ENUM que representa los días de la semana.
+ * Cada día tiene un nombre para mostrar en español.
+ */
 @Getter
 public enum DayOfWeek {
 

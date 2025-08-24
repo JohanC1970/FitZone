@@ -9,6 +9,11 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * Entity que representa un tipo de membresía en el sistema FitZone.
+ * Contiene información sobre el nombre, descripción, precio mensual y beneficios asociados a la membresía
+ * como acceso a todas las ubicaciones, sesiones de clases grupales, entrenamiento personal y clases especializadas.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,6 +45,7 @@ public class MembershipType {
 
     @Column(name = "specialized_classes_included", nullable = false)
     private Boolean specializedClassesIncluded;
+
 
 
 }
