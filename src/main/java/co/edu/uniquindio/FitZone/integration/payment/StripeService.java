@@ -34,5 +34,9 @@ public class StripeService {
         return  PaymentIntent.create(createParams);
     }
 
+    public PaymentIntent getPaymentIntent(String paymentIntentId) throws StripeException {
+        Stripe.apiKey =  secretKey;
+        return PaymentIntent.retrieve(paymentIntentId);
+    }
 
 }
