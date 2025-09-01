@@ -13,6 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration; // Añadir esta importación
+import org.springframework.web.cors.CorsConfigurationSource; // Añadir esta importación
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Añadir esta importación
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Configuración de seguridad para la aplicación FitZone.
@@ -29,13 +35,13 @@ public class SecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Añadir la configuración de CORS
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/public/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -45,6 +51,24 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // Permite las peticiones desde el origen de tu front-end de Angular
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        // Permite los métodos HTTP que vas a usar
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        // Permite los encabezados (headers) comunes y el encabezado de autorización
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        // Permite el envío de cookies y credenciales
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Aplica la configuración a todos los endpoints
+        return source;
+    }
+
 
 
     @Bean

@@ -44,6 +44,11 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
     }
 
+    @ExceptionHandler(UnauthorizedRegistrationException.class)
+    public ResponseEntity<Object> handleUnauthorizedRegistrationException(UnauthorizedRegistrationException exception){
+        return buildResponseEntity(HttpStatus.UNAUTHORIZED, "Unauthorized", exception.getMessage());
+    }
+
     // Manejo de errores de validación
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
