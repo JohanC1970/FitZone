@@ -2,6 +2,8 @@ package co.edu.uniquindio.FitZone.service.impl;
 
 import co.edu.uniquindio.FitZone.model.entity.User;
 import co.edu.uniquindio.FitZone.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+
     private UserRepository userRepository;
 
     public UserDetailsServiceImpl(UserRepository userRepository) {
@@ -31,13 +35,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        logger.debug("Cargando detalles del usuario para autenticación - Email: {}", email);
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("No se encontro ningun usuario con el correo electrónico: " + email));
+                .orElseThrow(() -> {
+                    logger.error("Usuario no encontrado para autenticación - Email: {}", email);
+                    return new UsernameNotFoundException("No se encontro ningun usuario con el correo electrónico: " + email);
+                });
+
+        logger.debug("Usuario encontrado para autenticación - ID: {}, Nombre: {}, Email: {}", 
+            user.getIdUser(), user.getPersonalInformation().getFirstName(), email);
 
         //Por ahora, solo usamos el email y la contraseña
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),new ArrayList<>());
+        logger.debug("Creando UserDetails para Spring Security - Email: {}", email);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
-
-
 }

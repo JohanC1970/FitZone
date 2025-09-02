@@ -7,6 +7,19 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
+/**
+ * DTO para actualizar la información de un usuario.
+ *
+ * @param firstName             Nombre del usuario.
+ * @param lastName              Apellidos del usuario.
+ * @param email                 Correo electrónico del usuario.
+ * @param documentType          Tipo de documento del usuario.
+ * @param documentNumber        Número de documento del usuario.
+ * @param phoneNumber           Número de teléfono del usuario.
+ * @param birthDate             Fecha de nacimiento del usuario.
+ * @param emergencyContactPhone Número de teléfono de contacto de emergencia.
+ * @param medicalConditions     Condiciones médicas del usuario (opcional).
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserUpdateRequest(
 

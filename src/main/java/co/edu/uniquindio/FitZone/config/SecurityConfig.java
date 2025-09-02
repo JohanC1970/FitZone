@@ -35,6 +35,14 @@ public class SecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http el objeto HttpSecurity para configurar la seguridad web
+     * @return la cadena de filtros de seguridad configurada
+     * @throws Exception si ocurre un error durante la configuración
+     */
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -52,6 +60,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configura la fuente de configuración de CORS.
+     *
+     * @return la fuente de configuración de CORS
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

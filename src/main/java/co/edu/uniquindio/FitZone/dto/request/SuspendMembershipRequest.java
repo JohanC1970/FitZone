@@ -8,6 +8,13 @@ import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
+/**
+ * DTO para la solicitud de suspensión de membresía.
+ * Contiene el ID del usuario, la razón de la suspensión y la fecha de fin de la suspensión.
+ * @param userId ID del usuario cuya membresía será suspendida.
+ * @param suspensionReason Razón de la suspensión.
+ * @param suspensionEnd Fecha de fin de la suspensión.
+ */
 public record SuspendMembershipRequest(
 
         @NotNull(message = "El ID del usuario no puede ser nulo")

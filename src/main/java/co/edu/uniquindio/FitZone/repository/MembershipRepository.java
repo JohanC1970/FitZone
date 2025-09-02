@@ -8,6 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Repositorio para gestionar las operaciones CRUD de la entidad Membership.
+ */
 public interface MembershipRepository extends CrudRepository<Membership, Long> {
 
 
@@ -27,6 +30,12 @@ public interface MembershipRepository extends CrudRepository<Membership, Long> {
      */
     List<Membership> findByStatusAndEndDate(MembershipStatus status, LocalDate endDate);
 
+    /**
+     * Busca membresías por su estado y fecha de finalización anterior a una fecha dada.
+     * @param status El estado de la membresía.
+     * @param suspensionEnd La fecha límite para la finalización de la membresía.
+     * @return Una lista de membresías que cumplen con los criterios.
+     */
     List<Membership> findByStatusAndEndDateIsBefore(MembershipStatus status, LocalDate suspensionEnd);
 
 

@@ -10,12 +10,24 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Servicio para manejar la integración con Stripe.
+ */
 @Service
 public class StripeService {
 
     @Value("${stripe.api.key.secret}")
     private String secretKey;
 
+    /**
+     * Crea un PaymentIntent en Stripe.
+     *
+     * @param amount      Monto en centavos.
+     * @param currency    Moneda (por ejemplo, "usd").
+     * @param description Descripción del pago.
+     * @return El PaymentIntent creado.
+     * @throws StripeException Si ocurre un error al interactuar con la API de Stripe.
+     */
     public PaymentIntent createPaymentIntent(Long amount, String currency, String description) throws StripeException {
 
         Stripe.apiKey =  secretKey;

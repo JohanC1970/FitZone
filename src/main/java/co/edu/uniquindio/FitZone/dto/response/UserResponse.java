@@ -7,6 +7,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * UserResponse record que representa la respuesta de un usuario.
+ * @param idUser
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param documentType
+ * @param documentNumber
+ * @param phoneNumber
+ * @param birthDate
+ * @param emergencyContactPhone
+ * @param medicalConditions
+ * @param userRole
+ * @param createdAt
+ */
 public record UserResponse(
 
         Long idUser,

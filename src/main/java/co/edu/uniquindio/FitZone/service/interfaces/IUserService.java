@@ -21,8 +21,14 @@ public interface IUserService {
      */
     UserResponse registerUser(UserRequest request);
 
-
+    /**
+     * Registra un nuevo usuario en el sistema a través de un endpoint público.
+     * Este método recibe un objeto UserRequest que contiene la información necesaria para crear un usuario.
+     * @param request objeto que contiene los datos del usuario a registrar
+     * @return UserResponse objeto que representa la respuesta del registro del usuario
+     */
     UserResponse publicRegisterUser(UserRequest request);
+
     /**
      * Actualiza la información de un usuario existente.
      * Este método recibe un ID de usuario y un objeto UserUpdateRequest que contiene los datos actualizados del usuario.
