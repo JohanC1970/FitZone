@@ -37,7 +37,7 @@ public class Location {
     @JoinColumn(name = "franchise_id", nullable = false)
     private Franchise franchise;
 
-    @OneToMany(mappedBy = "main_location")
+    @OneToMany(mappedBy = "mainLocation")
     private List<User> members;
 
     @Column(name = "is_active", nullable = false)

@@ -57,8 +57,8 @@ public record UserRequest(
         @Size(max = 20, message = "El número de teléfono no puede exceder los 20 caracteres")
         String phoneNumber,
 
-        @NotNull(message = "Birth date is required")
-        @Past(message = "Birth date must be in the past")
+        @NotNull(message = "La fecha de cumpleaños no puede ser nula")
+        @Past(message = "La fecha de cumpleaños no puede ser en el futuro ")
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate birthDate,
 

@@ -1,6 +1,7 @@
 package co.edu.uniquindio.FitZone.service.impl;
 
 import co.edu.uniquindio.FitZone.dto.request.CreateMembershipRequest;
+import co.edu.uniquindio.FitZone.dto.request.SuspendMembershipRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
 import co.edu.uniquindio.FitZone.exception.LocationNotFoundException;
 import co.edu.uniquindio.FitZone.exception.MembershipTypeNotFoundException;
@@ -22,6 +23,7 @@ import com.stripe.model.PaymentIntent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class MembershipServiceImpl implements IMembershipService {
@@ -109,6 +111,130 @@ public class MembershipServiceImpl implements IMembershipService {
             throw new RuntimeException("Error al verificar el pago con Stripe: " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public MembershipResponse getMembershipByUserId(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+
+        if (user.getMembership() == null) {
+            throw new MembershipTypeNotFoundException("El usuario no tiene una membresía activa");
+        }
+
+        Membership membership = user.getMembership();
+        return new MembershipResponse(
+                membership.getIdMembership(),
+                membership.getUser().getIdUser(),
+                membership.getType().getName(),
+                membership.getLocation().getIdLocation(),
+                membership.getStartDate(),
+                membership.getEndDate(),
+                membership.getStatus()
+        );
+    }
+
+    @Override
+    public MembershipResponse getMembershipByDocumentNumber(String documentNumber) {
+
+        User user = userRepository.findByPersonalInformation_DocumentNumber(documentNumber)
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+
+        if (user.getMembership() == null) {
+            throw new MembershipTypeNotFoundException("El usuario no tiene una membresía activa");
+        }
+
+        Membership membership = user.getMembership();
+        return new MembershipResponse(
+                membership.getIdMembership(),
+                membership.getUser().getIdUser(),
+                membership.getType().getName(),
+                membership.getLocation().getIdLocation(),
+                membership.getStartDate(),
+                membership.getEndDate(),
+                membership.getStatus()
+        );
+    }
+
+    @Override
+    public MembershipResponse suspendMembership(SuspendMembershipRequest request) {
+
+        User user = userRepository.findById(request.userId())
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+        Membership membership = user.getMembership();
+
+        if (membership == null) {
+            throw new MembershipTypeNotFoundException("El usuario no tiene una membresía");
+        }
+
+        if (membership.getStatus() != MembershipStatus.ACTIVE) {
+            throw new ResourceAlreadyExistsException("La membresía ya está suspendida o cancelada");
+        }
+
+        membership.setStatus(MembershipStatus.SUSPENDED);
+        membership.setSuspensionReason(request.suspensionReason());
+        membership.setSuspensionStart(LocalDate.now());
+        membership.setSuspensionEnd(request.suspensionEnd());
+
+        Membership updatedMembership = membershipRepository.save(membership);
+
+        return new MembershipResponse(
+                updatedMembership.getIdMembership(),
+                updatedMembership.getUser().getIdUser(),
+                updatedMembership.getType().getName(),
+                updatedMembership.getLocation().getIdLocation(),
+                updatedMembership.getStartDate(),
+                updatedMembership.getEndDate(),
+                updatedMembership.getStatus()
+        );
+
+    }
+
+    @Override
+    public MembershipResponse reactivateMembership(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+        Membership membership = user.getMembership();
+
+        if (membership == null || membership.getStatus() != MembershipStatus.SUSPENDED) {
+            throw new RuntimeException("La membresía no puede ser reactivada ya que esta no se encuentra suspendida");
+        }
+
+        // Calcula la duración real de la suspensión y extiende la fecha de finalización.
+        long suspensionDays = ChronoUnit.DAYS.between(membership.getSuspensionStart(), LocalDate.now());
+        membership.setEndDate(membership.getEndDate().plusDays(suspensionDays));
+
+        membership.setStatus(MembershipStatus.ACTIVE);
+        membership.setSuspensionReason(null);
+        membership.setSuspensionStart(null);
+        membership.setSuspensionEnd(null);
+
+        Membership updatedMembership = membershipRepository.save(membership);
+
+        return new MembershipResponse(
+                updatedMembership.getIdMembership(),
+                updatedMembership.getUser().getIdUser(),
+                updatedMembership.getType().getName(),
+                updatedMembership.getLocation().getIdLocation(),
+                updatedMembership.getStartDate(),
+                updatedMembership.getEndDate(),
+                updatedMembership.getStatus()
+        );
+    }
+
+    @Override
+    public void cancelMembership(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+        Membership membership = user.getMembership();
+
+        if (membership == null) {
+            throw new MembershipTypeNotFoundException("El usuario no tiene una membresía");
+        }
+
+        membership.setStatus(MembershipStatus.CANCELLED);
+        membershipRepository.save(membership);
     }
 
 

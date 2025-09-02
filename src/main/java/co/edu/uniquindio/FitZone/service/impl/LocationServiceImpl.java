@@ -40,7 +40,7 @@ public class LocationServiceImpl implements ILocationService {
                 .orElseThrow(()-> new FranchiseNotFoundException("Franquicia 'FitZone' no encontrada"));
 
 
-        if(locationRepository.existByName(request.name())){
+        if(locationRepository.existsByName(request.name())){
             throw new ResourceAlreadyExistsException("El nombre de la sede ya se encuentra registrado");
         }
 
@@ -75,7 +75,7 @@ public class LocationServiceImpl implements ILocationService {
         Location existingLocation = locationRepository.findById(idLocation)
                 .orElseThrow(() -> new LocationNotFoundException("Sede no encontrada"));
 
-        if(!existingLocation.getName().equals(request.name()) && locationRepository.existByName(request.name())){
+        if(!existingLocation.getName().equals(request.name()) && locationRepository.existsByName(request.name())){
             throw new ResourceAlreadyExistsException("El nuevo nombre de la sede ya se encuentra registrado");
         }
 

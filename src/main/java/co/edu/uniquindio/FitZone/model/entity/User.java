@@ -30,7 +30,7 @@ public class User {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_location_id")
+    @JoinColumn(name = "main_location")
     private Location mainLocation;
 
     @ManyToOne(fetch = FetchType.LAZY)
