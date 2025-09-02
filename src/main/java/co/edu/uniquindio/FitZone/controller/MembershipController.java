@@ -2,9 +2,13 @@ package co.edu.uniquindio.FitZone.controller;
 
 
 import co.edu.uniquindio.FitZone.dto.request.CreateMembershipRequest;
+import co.edu.uniquindio.FitZone.dto.request.PaymentIntentRequest;
 import co.edu.uniquindio.FitZone.dto.request.SuspendMembershipRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
+import co.edu.uniquindio.FitZone.integration.payment.StripeService;
 import co.edu.uniquindio.FitZone.service.interfaces.IMembershipService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,9 +19,19 @@ import org.springframework.web.bind.annotation.*;
 public class MembershipController {
 
     private final IMembershipService membershipService;
+    private final StripeService stripeService;
 
-    public MembershipController(IMembershipService membershipService) {
+    public MembershipController(IMembershipService membershipService, StripeService stripeService) {
         this.membershipService = membershipService;
+        this.stripeService = stripeService;
+    }
+
+    @PostMapping("/create-payment-intent")
+    public ResponseEntity<String>createPaymentIntent(@RequestBody PaymentIntentRequest request) throws StripeException {
+        PaymentIntent paymentIntent = stripeService.createPaymentIntent(request.amount().longValue(),
+                request.currency(), request.description());
+
+        return ResponseEntity.ok(paymentIntent.getClientSecret());
     }
 
     @PostMapping("/create")
