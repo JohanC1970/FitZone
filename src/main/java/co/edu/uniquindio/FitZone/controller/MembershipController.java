@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Controlador REST para gestionar las membresías de los usuarios.
  * Proporciona endpoints para crear, consultar, suspender, reactivar y cancelar membresías
@@ -36,30 +39,40 @@ public class MembershipController {
     }
 
     @PostMapping("/create-payment-intent")
-    public ResponseEntity<String> createPaymentIntent(@RequestBody PaymentIntentRequest request) {
+    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody PaymentIntentRequest request) {
         logger.info("POST /memberships/create-payment-intent - Creación de intento de pago solicitada");
-        logger.debug("Datos de pago recibidos - Monto: {}, Moneda: {}, Descripción: {}", 
-            request.amount(), request.currency(), request.description());
-        
+        logger.debug("Datos de pago recibidos - Monto: {}, Moneda: {}, Descripción: {}",
+                request.amount(), request.currency(), request.description());
+
         try {
             PaymentIntent paymentIntent = stripeService.createPaymentIntent(request.amount().longValue(),
                     request.currency(), request.description());
 
             logger.info("Intento de pago creado exitosamente - Client Secret generado");
-            logger.debug("Intento de pago creado - Monto: {}, Moneda: {}", 
-                request.amount(), request.currency());
-            
-            return ResponseEntity.ok(paymentIntent.getClientSecret());
+            logger.debug("Intento de pago creado - Monto: {}, Moneda: {}",
+                    request.amount(), request.currency());
+
+            // ✅ CORRECCIÓN: Devolver el clientSecret dentro de un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("clientSecret", paymentIntent.getClientSecret());
+
+            return ResponseEntity.ok(response);
+
         } catch (StripeException e) {
-            logger.error("Error al crear intento de pago con Stripe - Monto: {}, Error: {}", 
-                request.amount(), e.getMessage(), e);
+            logger.error("Error al crear intento de pago con Stripe - Monto: {}, Error: {}",
+                    request.amount(), e.getMessage(), e);
+
+            // ✅ CORRECCIÓN: Devolver el error en un objeto JSON
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error al crear intento de pago: " + e.getMessage());
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error al crear intento de pago: " + e.getMessage());
+                    .body(errorResponse);
         }
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'RECEPTIONIST')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RECEPTIONIST', ´MEMBER´)")
     public ResponseEntity<MembershipResponse> createMembership(@RequestBody CreateMembershipRequest request) {
         logger.info("POST /memberships/create - Creación de membresía solicitada por usuario autorizado");
         logger.debug("Datos de membresía recibidos - Usuario ID: {}, Tipo: {}, Sede: {}, PaymentIntent: {}", 

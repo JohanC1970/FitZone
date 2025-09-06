@@ -2,6 +2,9 @@ package co.edu.uniquindio.FitZone.service.interfaces;
 
 import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
 import co.edu.uniquindio.FitZone.dto.request.ResetPasswordRequest;
+import co.edu.uniquindio.FitZone.dto.request.VerifyOtpRequest;
+import co.edu.uniquindio.FitZone.dto.response.OtpResponse;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 
@@ -11,14 +14,21 @@ import java.io.IOException;
 public interface IAuthService {
 
     /**
-     * Metodo para iniciar sesion
-     * @param request contiene el email y la contrasena del usuario
-     * @return un token JWT
+     * Método para verificar credenciales y generar un OTP
+     * @param request DTO que contiene las credenciales para iniciar sesión
+     * @return
      */
-    String login(LoginRequest request);
+    OtpResponse loginAndGenerateOtp(LoginRequest request);
 
     /**
-     * Metodo para solicitar el reseteo de contrasena
+     * Método para verificar que el OTP sea correcto y terminar el proceso de inicio de sesión
+     * @param request DTO que contiene el email y el OTP
+     * @return Token para iniciar sesión
+     */
+    String verifyOtp(VerifyOtpRequest request);
+
+    /**
+     * Metodo para solicitar el reseteo de contraseña
      * @param email del usuario que solicita el reseteo
      */
     void requestPasswordReset(String email) throws IOException;
@@ -29,5 +39,10 @@ public interface IAuthService {
      */
     void resetPassword(ResetPasswordRequest request);
 
-
+    /**
+     * Reenvia el OTP
+     * @param email
+     * @return
+     */
+    OtpResponse resendOtp(String email);
 }

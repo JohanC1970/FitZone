@@ -3,6 +3,9 @@ package co.edu.uniquindio.FitZone.controller;
 
 import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
 import co.edu.uniquindio.FitZone.dto.request.ResetPasswordRequest;
+import co.edu.uniquindio.FitZone.dto.request.VerifyOtpRequest;
+import co.edu.uniquindio.FitZone.dto.response.OtpResponse;
+import co.edu.uniquindio.FitZone.exception.UserNotFoundException;
 import co.edu.uniquindio.FitZone.service.impl.UserDetailsServiceImpl;
 import co.edu.uniquindio.FitZone.service.interfaces.IAuthService;
 import co.edu.uniquindio.FitZone.util.JwtUtil;
@@ -11,11 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Controlador para manejar las operaciones de autenticación y autorización.
@@ -40,20 +45,36 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        logger.info("POST /auth/login - Iniciando proceso de login para usuario: {}", request.email());
-        logger.debug("Datos de login recibidos - Email: {}", request.email());
-        
+    @PostMapping("/login-2fa") // Cambiar el nombre del endpoint para coincidir con el frontend
+    public ResponseEntity<Object> loginAndGenerateOtp(@RequestBody LoginRequest request) {
+        logger.info("POST /auth/login-2fa - Solicitud de login con 2FA para usuario: {}", request.email());
+
         try {
-            String token = authService.login(request);
-            logger.info("Login exitoso para usuario: {} - Token JWT generado", request.email());
-            logger.debug("Login completado exitosamente - Email: {}", request.email());
-            return ResponseEntity.ok(token);
+            OtpResponse response = authService.loginAndGenerateOtp(request);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            logger.error("Error en el proceso de login para usuario: {} - Error: {}", 
-                request.email(), e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error de autenticación: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error interno al procesar la solicitud."));
+        }
+    }
+
+    // Nuevo endpoint para verificar el OTP
+    @PostMapping("/verify-otp")
+    public ResponseEntity<Object> verifyOtp(@RequestBody VerifyOtpRequest request) {
+        logger.info("POST /auth/verify-otp - Verificación de OTP para usuario: {}", request.email());
+
+        try {
+            String token = authService.verifyOtp(request);
+            return ResponseEntity.ok(Map.of("accessToken", token));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error interno al procesar la solicitud."));
         }
     }
 
@@ -90,4 +111,23 @@ public class AuthController {
                 .body("Error al restablecer la contraseña: " + e.getMessage());
         }
     }
+
+    @PostMapping("/resend-otp")
+    public ResponseEntity<Object> resendOtp(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        logger.info("POST /auth/resend-otp - Reenvío de OTP para usuario: {}", email);
+
+        try {
+            OtpResponse response = authService.resendOtp(email);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Usuario no encontrado"));
+        } catch (Exception e) {
+            logger.error("Error al reenviar OTP para: {} - Error: {}", email, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error interno al procesar la solicitud."));
+        }
+    }
+
 }

@@ -46,9 +46,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Añadir la configuración de CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login").permitAll()
+                        // ✅ AÑADIR los nuevos endpoints del flujo de login aquí
+                        .requestMatchers("/auth/login-2fa").permitAll()
+                        .requestMatchers("/auth/verify-otp").permitAll()
+                        .requestMatchers("/auth/resend-otp").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/public/register").permitAll()
                         .anyRequest().authenticated()
                 )
