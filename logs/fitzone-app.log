@@ -934,3 +934,93 @@ java.lang.RuntimeException: Error al verificar el pago con Stripe: You passed a 
 2025-09-05 11:47:27.428 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-09-05 11:47:27.434 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-09-05 11:47:27.452 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-06 18:04:40.371 [main] INFO  c.e.u.FitZone.FitZoneApplication - Starting FitZoneApplication using Java 21.0.8 with PID 29104 (D:\Software 3\Project-FitZone\FitZone - Backend\target\classes started by garci in D:\Software 3\Project-FitZone\FitZone - Backend)
+2025-09-06 18:04:40.373 [main] INFO  c.e.u.FitZone.FitZoneApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-06 18:04:41.437 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06 18:04:41.540 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 91 ms. Found 5 JPA repository interfaces.
+2025-09-06 18:04:42.338 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-06 18:04:42.351 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-06 18:04:42.352 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06 18:04:42.430 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-06 18:04:42.431 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2001 ms
+2025-09-06 18:04:42.702 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06 18:04:42.779 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06 18:04:42.830 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-09-06 18:04:43.177 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06 18:04:43.216 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-06 18:04:43.457 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56872fcb
+2025-09-06 18:04:43.458 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-06 18:04:43.497 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06 18:04:43.523 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.9
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06 18:04:44.982 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06 18:04:45.405 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06 18:04:46.001 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-06 18:04:46.158 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06 18:04:47.326 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-06 18:04:47.339 [main] INFO  c.e.u.FitZone.FitZoneApplication - Started FitZoneApplication in 7.756 seconds (process running for 8.298)
+2025-09-06 18:05:41.723 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06 18:05:41.724 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-06 18:05:41.725 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-09-06 18:05:41.866 [http-nio-8080-exec-3] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:05:41.866 [http-nio-8080-exec-3] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:06:07.517 [http-nio-8080-exec-4] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: null
+2025-09-06 18:06:07.517 [http-nio-8080-exec-4] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: null
+2025-09-06 18:06:20.052 [http-nio-8080-exec-6] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: null
+2025-09-06 18:06:20.052 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: null
+2025-09-06 18:10:24.486 [http-nio-8080-exec-8] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:10:24.486 [http-nio-8080-exec-8] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:10:24.529 [http-nio-8080-exec-8] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:19:22.011 [http-nio-8080-exec-1] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:19:22.011 [http-nio-8080-exec-1] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:19:31.461 [http-nio-8080-exec-2] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:19:31.461 [http-nio-8080-exec-2] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:19:31.472 [http-nio-8080-exec-2] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:30:31.555 [http-nio-8080-exec-10] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:30:31.555 [http-nio-8080-exec-10] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:30:43.924 [http-nio-8080-exec-3] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:30:43.924 [http-nio-8080-exec-3] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:30:43.935 [http-nio-8080-exec-3] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:31:06.791 [http-nio-8080-exec-7] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:06.791 [http-nio-8080-exec-7] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:20.902 [http-nio-8080-exec-9] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:20.902 [http-nio-8080-exec-9] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:20.975 [http-nio-8080-exec-9] WARN  c.e.u.F.service.impl.AuthServiceImpl - Credenciales incorrectas para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:22.773 [http-nio-8080-exec-10] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:22.773 [http-nio-8080-exec-10] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:22.840 [http-nio-8080-exec-10] WARN  c.e.u.F.service.impl.AuthServiceImpl - Credenciales incorrectas para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:57.902 [http-nio-8080-exec-3] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:57.903 [http-nio-8080-exec-3] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:31:57.970 [http-nio-8080-exec-3] WARN  c.e.u.F.service.impl.AuthServiceImpl - Credenciales incorrectas para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:32:06.721 [http-nio-8080-exec-4] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:32:06.721 [http-nio-8080-exec-4] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:32:21.525 [http-nio-8080-exec-6] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:32:21.526 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:32:21.533 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:37:57.890 [http-nio-8080-exec-1] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:37:57.890 [http-nio-8080-exec-1] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:37:57.962 [http-nio-8080-exec-1] WARN  c.e.u.F.service.impl.AuthServiceImpl - Credenciales incorrectas para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:38:10.617 [http-nio-8080-exec-4] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:38:10.618 [http-nio-8080-exec-4] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:38:10.689 [http-nio-8080-exec-4] WARN  c.e.u.F.service.impl.AuthServiceImpl - Credenciales incorrectas para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:38:41.611 [http-nio-8080-exec-6] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:38:41.612 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:39:00.823 [http-nio-8080-exec-8] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:39:00.823 [http-nio-8080-exec-8] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:39:00.832 [http-nio-8080-exec-8] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:42:05.622 [http-nio-8080-exec-4] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:42:05.623 [http-nio-8080-exec-4] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:42:21.607 [http-nio-8080-exec-6] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:42:21.607 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-06 18:42:21.617 [http-nio-8080-exec-6] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-06 18:43:19.728 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06 18:43:19.733 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-09-06 18:43:19.743 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06 18:43:19.746 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-06 18:43:19.753 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

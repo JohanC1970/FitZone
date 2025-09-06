@@ -69,6 +69,7 @@ public record UserRequest(
 
         String medicalConditions,
 
+        @NotNull(message = "Se debe especificar la sede principal")
         Long mainLocationId,
 
         @NotBlank(message = "El rol del usuario no puede estar vacío")

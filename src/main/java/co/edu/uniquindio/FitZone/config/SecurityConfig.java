@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/verify-otp").permitAll()
                         .requestMatchers("/auth/resend-otp").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/public/register").permitAll()
+                        // ✅ Permitir acceso público al endpoint de notificaciones de Mercado Pago
+                        .requestMatchers(HttpMethod.POST, "/mercadopago/notifications").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

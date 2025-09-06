@@ -1,14 +1,15 @@
 package co.edu.uniquindio.FitZone.controller;
 
+//Importaciones mercadopago
+import co.edu.uniquindio.FitZone.dto.request.mercadopago.PaymentPreferenceRequest;
+import co.edu.uniquindio.FitZone.dto.response.mercadopago.PaymentPreferenceResponse;
+import co.edu.uniquindio.FitZone.integration.payment.MercadoPagoService;
 
 import co.edu.uniquindio.FitZone.dto.request.CreateMembershipRequest;
-import co.edu.uniquindio.FitZone.dto.request.PaymentIntentRequest;
 import co.edu.uniquindio.FitZone.dto.request.SuspendMembershipRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
 import co.edu.uniquindio.FitZone.integration.payment.StripeService;
 import co.edu.uniquindio.FitZone.service.interfaces.IMembershipService;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,61 +32,47 @@ public class MembershipController {
     private static final Logger logger = LoggerFactory.getLogger(MembershipController.class);
 
     private final IMembershipService membershipService;
-    private final StripeService stripeService;
+    private final MercadoPagoService mercadoPagoService;
 
-    public MembershipController(IMembershipService membershipService, StripeService stripeService) {
+    public MembershipController(IMembershipService membershipService, MercadoPagoService mercadoPagoService) {
         this.membershipService = membershipService;
-        this.stripeService = stripeService;
+        this.mercadoPagoService = mercadoPagoService;
     }
 
-    @PostMapping("/create-payment-intent")
-    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody PaymentIntentRequest request) {
-        logger.info("POST /memberships/create-payment-intent - Creación de intento de pago solicitada");
-        logger.debug("Datos de pago recibidos - Monto: {}, Moneda: {}, Descripción: {}",
-                request.amount(), request.currency(), request.description());
+    @PostMapping("/create-payment-preference")
+    public ResponseEntity<PaymentPreferenceResponse> createPaymentPreference(@RequestBody PaymentPreferenceRequest request) {
+        logger.info("POST /memberships/create-payment-preference - Creación de preferencia de pago solicitada");
+        logger.debug("Datos de pago recibidos - Usuario ID: {}, Tipo membresía: {}, Precio: {}",
+                request.userId(), request.membershipTypeName(), request.price());
 
         try {
-            PaymentIntent paymentIntent = stripeService.createPaymentIntent(request.amount().longValue(),
-                    request.currency(), request.description());
-
-            logger.info("Intento de pago creado exitosamente - Client Secret generado");
-            logger.debug("Intento de pago creado - Monto: {}, Moneda: {}",
-                    request.amount(), request.currency());
-
-            // ✅ CORRECCIÓN: Devolver el clientSecret dentro de un objeto JSON
-            Map<String, String> response = new HashMap<>();
-            response.put("clientSecret", paymentIntent.getClientSecret());
-
+            PaymentPreferenceResponse response = mercadoPagoService.createPaymentPreference(request);
+            logger.info("Preferencia de pago creada exitosamente - ID: {}", response.preferenceId());
             return ResponseEntity.ok(response);
-
-        } catch (StripeException e) {
-            logger.error("Error al crear intento de pago con Stripe - Monto: {}, Error: {}",
-                    request.amount(), e.getMessage(), e);
-
-            // ✅ CORRECCIÓN: Devolver el error en un objeto JSON
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Error al crear intento de pago: " + e.getMessage());
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(errorResponse);
+        } catch (RuntimeException e) {
+            logger.error("Error al crear preferencia de pago: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'RECEPTIONIST', ´MEMBER´)")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RECEPTIONIST', 'MEMBER')")
     public ResponseEntity<MembershipResponse> createMembership(@RequestBody CreateMembershipRequest request) {
         logger.info("POST /memberships/create - Creación de membresía solicitada por usuario autorizado");
-        logger.debug("Datos de membresía recibidos - Usuario ID: {}, Tipo: {}, Sede: {}, PaymentIntent: {}", 
-            request.userId(), request.MembershipTypeId(), request.mainLocationId(), request.paymentIntentId());
-        
+        logger.debug("Datos de membresía recibidos - Usuario ID: {}, Tipo: {}, Sede: {}, PaymentIntent: {}",
+                request.userId(), request.MembershipTypeId(), request.mainLocationId(), request.paymentIntentId());
+
         try {
+            // TODO: Modificar la lógica para validar el pago con la referencia de Mercado Pago.
+            // Esto se hará en el siguiente paso modificando MembershipServiceImpl.java
+
             MembershipResponse response = membershipService.createMembership(request);
-            logger.info("Membresía creada exitosamente - ID: {}, Usuario: {}, Tipo: {}", 
-                response.id(), response.userId(), response.membershipTypeName());
+            logger.info("Membresía creada exitosamente - ID: {}, Usuario: {}, Tipo: {}",
+                    response.id(), response.userId(), response.membershipTypeName());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            logger.error("Error al crear membresía - Usuario ID: {}, Error: {}", 
-                request.userId(), e.getMessage(), e);
+            logger.error("Error al crear membresía - Usuario ID: {}, Error: {}",
+                    request.userId(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

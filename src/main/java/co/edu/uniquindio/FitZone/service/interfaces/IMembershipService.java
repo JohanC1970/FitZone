@@ -12,6 +12,14 @@ import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
 public interface IMembershipService {
 
     /**
+     * Procesa una notificación de pago de Mercado Pago.
+     * Si el pago fue exitoso, crea una membresía en el sistema.
+     *
+     * @param paymentId ID de la notificación de pago de Mercado Pago.
+     */
+    void processMercadoPagoNotification(String paymentId);
+
+    /**
      * Crea una nueva membresía para un usuario.
      * Válida la existencia del usuario, tipo de membresía, sede y estado del pago.
      *

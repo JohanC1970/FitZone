@@ -3,12 +3,15 @@ package co.edu.uniquindio.FitZone.service.impl;
 import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.request.UserUpdateRequest;
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
+import co.edu.uniquindio.FitZone.exception.LocationNotFoundException;
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.exception.UnauthorizedRegistrationException;
 import co.edu.uniquindio.FitZone.exception.UserNotFoundException;
+import co.edu.uniquindio.FitZone.model.entity.Location;
 import co.edu.uniquindio.FitZone.model.entity.PersonalInformation;
 import co.edu.uniquindio.FitZone.model.entity.User;
 import co.edu.uniquindio.FitZone.model.enums.UserRole;
+import co.edu.uniquindio.FitZone.repository.LocationRepository;
 import co.edu.uniquindio.FitZone.repository.UserRepository;
 import co.edu.uniquindio.FitZone.service.interfaces.IUserService;
 import org.slf4j.Logger;
@@ -30,10 +33,12 @@ public class UserServiceImpl implements IUserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LocationRepository locationRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, LocationRepository locationRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.locationRepository = locationRepository;
     }
 
 
@@ -102,8 +107,8 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public UserResponse publicRegisterUser(UserRequest request) {
-        logger.info("Iniciando registro público de usuario - Email: {}, Documento: {}", 
-            request.email(), request.documentNumber());
+        logger.info("Iniciando registro público de usuario - Email: {}, Documento: {}",
+                request.email(), request.documentNumber());
 
         if(userRepository.existsByEmail(request.email())){
             logger.warn("Intento de registro público con email duplicado: {}", request.email());
@@ -115,12 +120,17 @@ public class UserServiceImpl implements IUserService{
             throw new ResourceAlreadyExistsException("El número de documento ya se encuentra registrado.");
         }
 
+        // ✅ Buscar la sede por su ID y validar que exista.
+        Location mainLocation = locationRepository.findById(request.mainLocationId())
+                .orElseThrow(() -> new LocationNotFoundException("Sede principal no encontrada"));
+
         logger.debug("Validaciones de duplicados exitosas, creando nuevo usuario miembro");
         // Mapear el DTO a la entidad User
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(UserRole.MEMBER); // Se asigna el rol de MEMBER de forma automática
+        user.setMainLocation(mainLocation); // ✅ Asignar la sede principal al usuario
 
         // Mapear la información del DTO al objeto embebido
         PersonalInformation personalInformation = getPersonalInformation(request);
@@ -128,8 +138,8 @@ public class UserServiceImpl implements IUserService{
 
         // Guardar el usuario en la base de datos
         UserResponse response = getUserResponse(user);
-        logger.info("Usuario registrado exitosamente de forma pública - ID: {}, Email: {}, Rol: {}", 
-            response.idUser(), response.email(), response.userRole());
+        logger.info("Usuario registrado exitosamente de forma pública - ID: {}, Email: {}, Rol: {}",
+                response.idUser(), response.email(), response.userRole());
         return response;
     }
 

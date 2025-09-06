@@ -1,25 +1,32 @@
 package co.edu.uniquindio.FitZone.service.impl;
 
 import co.edu.uniquindio.FitZone.dto.request.CreateMembershipRequest;
+import co.edu.uniquindio.FitZone.dto.request.PaymentIntentRequest;
 import co.edu.uniquindio.FitZone.dto.request.SuspendMembershipRequest;
+import co.edu.uniquindio.FitZone.dto.request.mercadopago.PaymentPreferenceRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
 import co.edu.uniquindio.FitZone.exception.LocationNotFoundException;
 import co.edu.uniquindio.FitZone.exception.MembershipTypeNotFoundException;
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.exception.UserNotFoundException;
+import co.edu.uniquindio.FitZone.integration.payment.MercadoPagoService;
 import co.edu.uniquindio.FitZone.integration.payment.StripeService;
 import co.edu.uniquindio.FitZone.model.entity.Location;
 import co.edu.uniquindio.FitZone.model.entity.Membership;
 import co.edu.uniquindio.FitZone.model.entity.MembershipType;
 import co.edu.uniquindio.FitZone.model.entity.User;
 import co.edu.uniquindio.FitZone.model.enums.MembershipStatus;
+import co.edu.uniquindio.FitZone.model.enums.MembershipTypeName;
 import co.edu.uniquindio.FitZone.repository.LocationRepository;
 import co.edu.uniquindio.FitZone.repository.MembershipRepository;
 import co.edu.uniquindio.FitZone.repository.MembershipTypeRepository;
 import co.edu.uniquindio.FitZone.repository.UserRepository;
 import co.edu.uniquindio.FitZone.service.interfaces.IMembershipService;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
+import com.mercadopago.client.payment.PaymentClient;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.Payment;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,22 +48,82 @@ public class MembershipServiceImpl implements IMembershipService {
     private final UserRepository userRepository;
     private final MembershipTypeRepository membershipTypeRepository;
     private final LocationRepository locationRepository;
-    private final StripeService stripeService;
+    private final MercadoPagoService mercadoPagoService;
 
-    public MembershipServiceImpl(MembershipRepository membershipRepository, UserRepository userRepository, MembershipTypeRepository membershipTypeRepository, LocationRepository locationRepository, StripeService stripeService) {
+    public MembershipServiceImpl(MembershipRepository membershipRepository, UserRepository userRepository, MembershipTypeRepository membershipTypeRepository, LocationRepository locationRepository, MercadoPagoService mercadoPagoService) {
         this.membershipRepository = membershipRepository;
         this.userRepository = userRepository;
         this.membershipTypeRepository = membershipTypeRepository;
         this.locationRepository = locationRepository;
-        this.stripeService = stripeService;
+        this.mercadoPagoService = mercadoPagoService;
     }
 
 
     @Override
+    public void processMercadoPagoNotification(String paymentId) {
+        logger.info("Procesando notificación de pago de Mercado Pago para el ID: {}", paymentId);
+
+        try {
+            PaymentClient paymentClient = new PaymentClient();
+            Payment payment = paymentClient.get(Long.parseLong(paymentId));
+
+            if ("approved".equalsIgnoreCase(payment.getStatus())) {
+                logger.info("Pago aprobado. Creando membresía...");
+
+                // ✅ Modificación: Extraer los IDs de la externalReference
+                String externalReference = payment.getExternalReference();
+                if (externalReference == null || externalReference.isEmpty()) {
+                    throw new IllegalArgumentException("La externalReference no está presente en el pago.");
+                }
+
+                String[] ids = externalReference.split("_");
+                if (ids.length != 3) {
+                    throw new IllegalArgumentException("Formato de externalReference inválido.");
+                }
+
+                Long userId = Long.parseLong(ids[0]);
+                Long membershipTypeId = Long.parseLong(ids[1]);
+                Long mainLocationId = Long.parseLong(ids[2]);
+
+                // ✅ Buscar el usuario y el tipo de membresía con los Ids extraídos
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + userId));
+
+                MembershipType membershipType = membershipTypeRepository.findById(membershipTypeId)
+                        .orElseThrow(() -> new MembershipTypeNotFoundException("Tipo de membresía no encontrado con ID: " + membershipTypeId));
+
+                // ✅ Buscar la sede principal del usuario con el ID extraído
+                Location mainLocation = locationRepository.findById(mainLocationId)
+                        .orElseThrow(() -> new LocationNotFoundException("Sede principal no encontrada con ID: " + mainLocationId));
+
+                // 🔹 Crear la membresía
+                CreateMembershipRequest request = new CreateMembershipRequest(
+                        userId,
+                        membershipType.getIdMembershipType(),
+                        mainLocation.getIdLocation(),
+                        paymentId
+                );
+
+                this.createMembership(request);
+                logger.info("Membresía creada exitosamente a partir de la notificación de pago con ID: {}", paymentId);
+            } else {
+                logger.warn("El pago con ID {} no fue aprobado. Estado actual: {}", paymentId, payment.getStatus());
+            }
+
+        } catch (MPApiException apiException) {
+            logger.error("Error de la API de Mercado Pago: status={}, content={}", apiException.getApiResponse().getStatusCode(), apiException.getApiResponse().getContent());
+        } catch (MPException exception) {
+            logger.error("Error general de Mercado Pago al procesar notificación con ID {}: {}", paymentId, exception.getMessage());
+        } catch (Exception e) {
+            logger.error("Error al procesar la notificación de pago con ID {}: {}", paymentId, e.getMessage(), e);
+        }
+    }
+
+    @Override
     public MembershipResponse createMembership(CreateMembershipRequest request) {
         logger.info("Iniciando creación de membresía para usuario ID: {}", request.userId());
-        logger.debug("Datos de la membresía - Tipo: {}, Sede: {}, PaymentIntent: {}", 
-            request.MembershipTypeId(), request.mainLocationId(), request.paymentIntentId());
+        logger.debug("Datos de la membresía - Tipo: {}, Sede: {}, PaymentIntent: {}",
+                request.MembershipTypeId(), request.mainLocationId(), request.paymentIntentId());
 
         //Validar que los recursos existan
         User user = userRepository.findById(request.userId())
@@ -76,8 +143,8 @@ public class MembershipServiceImpl implements IMembershipService {
             }
 
             if(user.getMembership().getStatus() == MembershipStatus.SUSPENDED ){
-                logger.warn("Intento de crear membresía para usuario con membresía suspendida - ID: {}, Razón: {}", 
-                    request.userId(), user.getMembership().getSuspensionReason());
+                logger.warn("Intento de crear membresía para usuario con membresía suspendida - ID: {}, Razón: {}",
+                        request.userId(), user.getMembership().getSuspensionReason());
                 throw new ResourceAlreadyExistsException("El usuario ya tiene una membresía registrada, " +
                         "pero esta se encuentra suspendida por la siguiente razón: " + user.getMembership().getSuspensionReason());
             }
@@ -97,57 +164,42 @@ public class MembershipServiceImpl implements IMembershipService {
                     return new LocationNotFoundException("Sede principal no encontrada");
                 });
 
-        try{
-            logger.debug("Verificando pago con Stripe - PaymentIntent: {}", request.paymentIntentId());
-            //Verificar el pago con Stripe usando el ID de la intención de pago
-            PaymentIntent paymentIntent = stripeService.getPaymentIntent(request.paymentIntentId());
 
-            if(!"succeeded".equals(paymentIntent.getStatus())){
-                logger.error("Pago no completado correctamente - PaymentIntent: {}, Estado: {}", 
-                    request.paymentIntentId(), paymentIntent.getStatus());
-                throw new RuntimeException("El pago no se ha completado correctamente");
-            }
+        logger.debug("Creando membresía en la base de datos");
+        // Creamos y guardamos la membresía en la base de datos
+        Membership newMembership = new Membership();
+        newMembership.setUser(user);
+        newMembership.setType(type);
+        newMembership.setLocation(location);
+        newMembership.setPrice(type.getMonthlyPrice());
+        newMembership.setStartDate(LocalDate.now());
+        newMembership.setEndDate(LocalDate.now().plusMonths(1));
+        newMembership.setStatus(MembershipStatus.ACTIVE);
 
-            logger.debug("Pago verificado exitosamente, creando membresía en la base de datos");
-            // Creamos y guardamos la membresía en la base de datos
-            Membership newMembership = new Membership();
-            newMembership.setUser(user);
-            newMembership.setType(type);
-            newMembership.setLocation(location);
-            newMembership.setPrice(type.getMonthlyPrice());
-            newMembership.setStartDate(LocalDate.now());
-            newMembership.setEndDate(LocalDate.now().plusMonths(1));
-            newMembership.setStatus(MembershipStatus.ACTIVE);
+        Membership savedMembership = membershipRepository.save(newMembership);
+        logger.debug("Membresía guardada con ID: {}", savedMembership.getIdMembership());
 
-            Membership savedMembership = membershipRepository.save(newMembership);
-            logger.debug("Membresía guardada con ID: {}", savedMembership.getIdMembership());
+        //Actualizamos la referencia de la membresía en el usuario
+        logger.debug("Actualizando referencia de membresía en el usuario");
+        user.setMembership(savedMembership);
+        user.setMainLocation(location);
+        userRepository.save(user);
 
-            //Actualizamos la referencia de la membresía en el usuario
-            logger.debug("Actualizando referencia de membresía en el usuario");
-            user.setMembership(savedMembership);
-            user.setMainLocation(location);
-            userRepository.save(user);
-
-            logger.info("Membresía creada exitosamente - ID: {}, Usuario: {}, Tipo: {}", 
+        logger.info("Membresía creada exitosamente - ID: {}, Usuario: {}, Tipo: {}",
                 savedMembership.getIdMembership(), user.getPersonalInformation().getFirstName(), type.getName());
 
-            //Retornamos la respuesta al cliente
-            return new MembershipResponse(
-                    savedMembership.getIdMembership(),
-                    savedMembership.getUser().getIdUser(),
-                    savedMembership.getType().getName(),
-                    savedMembership.getLocation().getIdLocation(),
-                    savedMembership.getStartDate(),
-                    savedMembership.getEndDate(),
-                    savedMembership.getStatus()
-            );
-
-        } catch (StripeException e) {
-            logger.error("Error al verificar el pago con Stripe - PaymentIntent: {}, Error: {}", 
-                request.paymentIntentId(), e.getMessage(), e);
-            throw new RuntimeException("Error al verificar el pago con Stripe: " + e.getMessage());
-        }
+        //Retornamos la respuesta al cliente
+        return new MembershipResponse(
+                savedMembership.getIdMembership(),
+                savedMembership.getUser().getIdUser(),
+                savedMembership.getType().getName(),
+                savedMembership.getLocation().getIdLocation(),
+                savedMembership.getStartDate(),
+                savedMembership.getEndDate(),
+                savedMembership.getStatus()
+        );
     }
+
 
     @Override
     public MembershipResponse getMembershipByUserId(Long userId) {
