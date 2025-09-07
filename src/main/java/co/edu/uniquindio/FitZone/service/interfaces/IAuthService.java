@@ -2,47 +2,89 @@ package co.edu.uniquindio.FitZone.service.interfaces;
 
 import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
 import co.edu.uniquindio.FitZone.dto.request.ResetPasswordRequest;
-import co.edu.uniquindio.FitZone.dto.request.VerifyOtpRequest;
-import co.edu.uniquindio.FitZone.dto.response.OtpResponse;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 
 /**
- * Interfaz que define los metodos del servicio de autenticacion
+ * Interfaz que define los métodos del servicio de autenticación
+ * incluyendo autenticación de 2 pasos (2FA/OTP)
  */
 public interface IAuthService {
 
-    /**
-     * Método para verificar credenciales y generar un OTP
-     * @param request DTO que contiene las credenciales para iniciar sesión
-     * @return
-     */
-    OtpResponse loginAndGenerateOtp(LoginRequest request);
+    // ------------------ LOGIN CON 2FA ------------------
 
     /**
-     * Método para verificar que el OTP sea correcto y terminar el proceso de inicio de sesión
-     * @param request DTO que contiene el email y el OTP
-     * @return Token para iniciar sesión
+     * Paso 1: Inicia el login, valida credenciales y envía OTP al correo.
+     * @param request contiene el email y la contraseña del usuario
      */
-    String verifyOtp(VerifyOtpRequest request);
+    void initiateLogin(LoginRequest request);
 
     /**
-     * Metodo para solicitar el reseteo de contraseña
+     * Paso 2: Valida el OTP ingresado por el usuario y genera JWT.
+     * @param email del usuario
+     * @param otp código OTP recibido por correo
+     * @return token JWT si OTP es válido
+     */
+    String completeLogin(String email, String otp);
+
+    // ------------------ FORGOT PASSWORD ------------------
+
+    /**
+     * Solicita el reseteo de contraseña enviando un token al correo
      * @param email del usuario que solicita el reseteo
      */
     void requestPasswordReset(String email) throws IOException;
 
     /**
-     * Metodo para resetear la contrasena
-     * @param request contiene el token y la nueva contrasena
+     * Resetea la contraseña usando el token de verificación
+     * @param request contiene el token y la nueva contraseña
      */
     void resetPassword(ResetPasswordRequest request);
 
+    // ------------------ 2FA / OTP AUXILIARES ------------------
+
     /**
-     * Reenvia el OTP
-     * @param email
+     * Valida las credenciales de usuario sin generar JWT
+     * @param request LoginRequest con email y password
+     * @return true si las credenciales son correctas
+     */
+    boolean validateCredentials(LoginRequest request);
+
+    /**
+     * Genera un OTP temporal para el usuario
+     * @param email del usuario
+     * @return OTP generado
+     */
+    String generateOTP(String email);
+
+    /**
+     * Envía el OTP al correo del usuario
+     * @param email del usuario
+     * @param otp código OTP
+     */
+    void sendOTPEmail(String email, String otp);
+
+    /**
+     * Valida el OTP ingresado por el usuario
+     * @param email del usuario
+     * @param otp OTP ingresado
+     * @return true si el OTP es válido y no expiró
+     */
+    boolean validateOTP(String email, String otp);
+    // En IAuthService.java
+    /**
+     * Genera el JWT final después de validar OTP
+     * @param email del usuario
+     * @return token JWT
+     */
+    String loginAfterOTP(String email);
+
+    /**
+     * Genera un nuevo token de acceso usando el token de refresco
+     * @param refreshToken
      * @return
      */
-    OtpResponse resendOtp(String email);
+    String refreshAccessToken(String refreshToken);
+
+    String generateRefreshToken(String email);
 }

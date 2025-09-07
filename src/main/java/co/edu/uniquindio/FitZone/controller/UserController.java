@@ -2,7 +2,10 @@ package co.edu.uniquindio.FitZone.controller;
 
 
 import co.edu.uniquindio.FitZone.dto.request.UserRequest;
+<<<<<<< HEAD
 import co.edu.uniquindio.FitZone.dto.request.UserUpdateRequest;
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 import co.edu.uniquindio.FitZone.service.interfaces.IUserService;
 import org.slf4j.Logger;
@@ -31,6 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+<<<<<<< HEAD
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RECEPTIONIST', 'INSTRUCTOR')")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest request) {
         logger.info("POST /users/register - Registro de usuario solicitado por usuario autorizado");
@@ -47,6 +51,10 @@ public class UserController {
                 request.email(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+=======
+    public UserResponse registerUser(@RequestBody UserRequest request){
+        return userService.registerUser(request);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
     }
 
     @PostMapping("/public/register")
@@ -68,6 +76,7 @@ public class UserController {
     }
 
     @PutMapping("/{idUser}")
+<<<<<<< HEAD
     public ResponseEntity<UserResponse> updateUser(@PathVariable Long idUser, @RequestBody UserUpdateRequest request) {
         logger.info("PUT /users/{} - Actualización de usuario solicitada", idUser);
         logger.debug("Datos de actualización recibidos - Nombre: {}, Apellido: {}, Email: {}, Documento: {}", 
@@ -83,6 +92,10 @@ public class UserController {
                 idUser, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+=======
+    public UserResponse updateUser(@PathVariable Long idUser, @RequestBody UserRequest request) {
+        return userService.updateUser(idUser, request);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
     }
 
     @DeleteMapping("/{idUser}")

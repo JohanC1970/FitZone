@@ -3,18 +3,29 @@ package co.edu.uniquindio.FitZone.service.impl;
 import co.edu.uniquindio.FitZone.dto.request.MembershipTypeRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipTypeResponse;
 import co.edu.uniquindio.FitZone.exception.MembershipTypeNotFoundException;
+<<<<<<< HEAD
+<<<<<<< HEAD
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
+=======
+import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
+>>>>>>> df32851 (Se crearon los controladores para los servicios de Location y MembershipType)
 import co.edu.uniquindio.FitZone.model.entity.MembershipType;
 import co.edu.uniquindio.FitZone.model.enums.MembershipTypeName;
 import co.edu.uniquindio.FitZone.repository.MembershipTypeRepository;
 import co.edu.uniquindio.FitZone.service.interfaces.IMembershipTypeService;
+<<<<<<< HEAD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+<<<<<<< HEAD
 /**
  * Implementación del servicio para gestionar tipos de membresía.
  * Proporciona métodos para crear, actualizar, consultar por ID o nombre, y listar todos los tipos de membresía.
@@ -26,6 +37,11 @@ public class MembershipTypeImpl implements IMembershipTypeService {
 
     private static final Logger logger = LoggerFactory.getLogger(MembershipTypeImpl.class);
 
+=======
+@Service
+public class MembershipTypeImpl implements IMembershipTypeService {
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
     private final MembershipTypeRepository membershipTypeRepository;
 
     public MembershipTypeImpl(MembershipTypeRepository membershipTypeRepository) {
@@ -34,6 +50,7 @@ public class MembershipTypeImpl implements IMembershipTypeService {
 
     @Override
     public MembershipTypeResponse createMembershipType(MembershipTypeRequest membershipTypeRequest) {
+<<<<<<< HEAD
         logger.info("Iniciando creación de tipo de membresía: {}", membershipTypeRequest.name());
         logger.debug("Datos del tipo de membresía - Descripción: {}, Precio mensual: {}, Acceso a todas las sedes: {}", 
             membershipTypeRequest.description(), membershipTypeRequest.monthlyPrice(), membershipTypeRequest.accessToAllLocation());
@@ -50,6 +67,16 @@ public class MembershipTypeImpl implements IMembershipTypeService {
         MembershipType savedMembershipType = membershipTypeRepository.save(membershipType);
         logger.info("Tipo de membresía creado exitosamente - ID: {}, Nombre: {}", 
             savedMembershipType.getIdMembershipType(), savedMembershipType.getName());
+=======
+
+        if(membershipTypeRepository.existsByName(membershipTypeRequest.name())){
+            throw new ResourceAlreadyExistsException("El tipo de membresía ya existe");
+        }
+
+        MembershipType membershipType = getMembershipType(membershipTypeRequest);
+
+        MembershipType savedMembershipType = membershipTypeRepository.save(membershipType);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
         return new MembershipTypeResponse(
                 savedMembershipType.getIdMembershipType(),
@@ -66,6 +93,7 @@ public class MembershipTypeImpl implements IMembershipTypeService {
 
     @Override
     public MembershipTypeResponse updateMembershipType(Long id, MembershipTypeRequest request) {
+<<<<<<< HEAD
         logger.info("Iniciando actualización de tipo de membresía con ID: {}", id);
         logger.debug("Nuevos datos - Nombre: {}, Descripción: {}, Precio mensual: {}", 
             request.name(), request.description(), request.monthlyPrice());
@@ -84,6 +112,16 @@ public class MembershipTypeImpl implements IMembershipTypeService {
        }
 
         logger.debug("Validación de nombre único exitosa, actualizando datos del tipo de membresía");
+=======
+
+        MembershipType membershipType = membershipTypeRepository.findById(id)
+                .orElseThrow(() -> new MembershipTypeNotFoundException("Tipo de membresía no encontrado"));
+
+       if(!membershipType.getName().equals(request.name()) && membershipTypeRepository.existsByName(request.name())){
+           throw new ResourceAlreadyExistsException("El tipo de membresía ya existe");
+       }
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         membershipType.setName(request.name());
         membershipType.setDescription(request.description());
         membershipType.setMonthlyPrice(request.monthlyPrice());
@@ -92,10 +130,14 @@ public class MembershipTypeImpl implements IMembershipTypeService {
         membershipType.setPersonalTrainingIncluded(request.personalTrainingIncluded());
         membershipType.setSpecializedClassesIncluded(request.specializedClassesIncluded());
 
+<<<<<<< HEAD
         logger.debug("Guardando tipo de membresía actualizado en la base de datos");
         MembershipType updatedMembershipType = membershipTypeRepository.save(membershipType);
         logger.info("Tipo de membresía actualizado exitosamente - ID: {}, Nombre: {}", 
             updatedMembershipType.getIdMembershipType(), updatedMembershipType.getName());
+=======
+        MembershipType updatedMembershipType = membershipTypeRepository.save(membershipType);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
         return new MembershipTypeResponse(
                 updatedMembershipType.getIdMembershipType(),
@@ -107,10 +149,15 @@ public class MembershipTypeImpl implements IMembershipTypeService {
                 updatedMembershipType.getPersonalTrainingIncluded(),
                 updatedMembershipType.getSpecializedClassesIncluded()
         );
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
     }
 
     @Override
     public MembershipTypeResponse getMembershipTypeById(Long id) {
+<<<<<<< HEAD
         logger.debug("Consultando tipo de membresía por ID: {}", id);
 
         MembershipType membershipType = membershipTypeRepository.findById(id)
@@ -120,6 +167,11 @@ public class MembershipTypeImpl implements IMembershipTypeService {
                 });
 
         logger.debug("Tipo de membresía encontrado: {} (ID: {})", membershipType.getName(), id);
+=======
+        MembershipType membershipType = membershipTypeRepository.findById(id)
+                .orElseThrow(() -> new MembershipTypeNotFoundException("Tipo de membresía no encontrado"));
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         return new MembershipTypeResponse(
                 membershipType.getIdMembershipType(),
                 membershipType.getName(),
@@ -134,6 +186,7 @@ public class MembershipTypeImpl implements IMembershipTypeService {
 
     @Override
     public MembershipTypeResponse getMembershipTypeByName(MembershipTypeName name) {
+<<<<<<< HEAD
         logger.debug("Consultando tipo de membresía por nombre: {}", name);
 
         MembershipType membershipType = membershipTypeRepository.findByName(name)
@@ -143,6 +196,11 @@ public class MembershipTypeImpl implements IMembershipTypeService {
                 });
 
         logger.debug("Tipo de membresía encontrado por nombre: {} (ID: {})", name, membershipType.getIdMembershipType());
+=======
+        MembershipType membershipType = membershipTypeRepository.findByName(name)
+                .orElseThrow(() -> new MembershipTypeNotFoundException("Tipo de membresía no encontrado"));
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         return new MembershipTypeResponse(
                 membershipType.getIdMembershipType(),
                 membershipType.getName(),
@@ -157,9 +215,14 @@ public class MembershipTypeImpl implements IMembershipTypeService {
 
     @Override
     public List<MembershipTypeResponse> getMembershipTypes() {
+<<<<<<< HEAD
         logger.debug("Consultando todos los tipos de membresía");
 
         List<MembershipTypeResponse> membershipTypes = StreamSupport
+=======
+
+        return StreamSupport
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
                 .stream(membershipTypeRepository.findAll().spliterator(), false)
                 .map(m -> new MembershipTypeResponse(
                         m.getIdMembershipType(),
@@ -170,11 +233,17 @@ public class MembershipTypeImpl implements IMembershipTypeService {
                         m.getGroupClassesSessionsIncluded(),
                         m.getPersonalTrainingIncluded(),
                         m.getSpecializedClassesIncluded()
+<<<<<<< HEAD
                 ))
                 .toList();
 
         logger.debug("Se encontraron {} tipos de membresía", membershipTypes.size());
         return membershipTypes;
+=======
+
+                ))
+                .toList();
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
     }
 
     /**
@@ -183,8 +252,11 @@ public class MembershipTypeImpl implements IMembershipTypeService {
      * @return Entidad MembershipType mapeada
      */
     private static MembershipType getMembershipType(MembershipTypeRequest membershipTypeRequest) {
+<<<<<<< HEAD
         logger.debug("Mapeando MembershipTypeRequest a entidad MembershipType - Nombre: {}", membershipTypeRequest.name());
         
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         MembershipType membershipType = new MembershipType();
         membershipType.setName(membershipTypeRequest.name());
         membershipType.setDescription(membershipTypeRequest.description());
@@ -193,8 +265,14 @@ public class MembershipTypeImpl implements IMembershipTypeService {
         membershipType.setGroupClassesSessionsIncluded(membershipTypeRequest.groupClassesSessionsIncluded());
         membershipType.setPersonalTrainingIncluded(membershipTypeRequest.personalTrainingIncluded());
         membershipType.setSpecializedClassesIncluded(membershipTypeRequest.specializedClassesIncluded());
+<<<<<<< HEAD
         
         logger.debug("Mapeo completado para el tipo de membresía: {}", membershipTypeRequest.name());
         return membershipType;
     }
+=======
+        return membershipType;
+    }
+
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 }

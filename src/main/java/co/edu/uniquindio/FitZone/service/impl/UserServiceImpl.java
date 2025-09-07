@@ -1,7 +1,12 @@
 package co.edu.uniquindio.FitZone.service.impl;
 
+<<<<<<< HEAD
+import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
 import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.request.UserUpdateRequest;
+=======
+import co.edu.uniquindio.FitZone.dto.request.UserRequest;
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.exception.UnauthorizedRegistrationException;
@@ -45,8 +50,11 @@ public class UserServiceImpl implements IUserService{
      */
     @Override
     public UserResponse registerUser(UserRequest request) {
-        logger.info("Iniciando registro de usuario por administrador - Email: {}, Rol: {}", 
+<<<<<<< HEAD
+        logger.info("Iniciando registro de usuario por administrador - Email: {}, Rol: {}",
             request.email(), request.role());
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
         //Obtener el rol del usuario autenticado que está realizando la solicitud
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +71,7 @@ public class UserServiceImpl implements IUserService{
         //Un ADMIN puede registrar cualquier rol, incluido otro ADMIN
         //Los demás roles solo pueden registrar roles con un nivel de jerarquía inferior
         if (registeringUserRole != UserRole.ADMIN && registeringUserRole.getHierarchyLevel() <= request.role().getHierarchyLevel()) {
-            logger.warn("Intento de registro no autorizado - Rol registrador: {}, Rol solicitado: {}", 
+            logger.warn("Intento de registro no autorizado - Rol registrador: {}, Rol solicitado: {}",
                 registeringUserRole, request.role());
             throw new UnauthorizedRegistrationException("El usuario con rol " + registeringUserRole.name() + " no está autorizado para registrar un usuario con rol " + request.role().name());
         }
@@ -95,43 +103,43 @@ public class UserServiceImpl implements IUserService{
 
         //Guardamos el usuario en la base de datos
         UserResponse response = getUserResponse(user);
-        logger.info("Usuario registrado exitosamente por administrador - ID: {}, Email: {}, Rol: {}", 
+        logger.info("Usuario registrado exitosamente por administrador - ID: {}, Email: {}, Rol: {}",
             response.idUser(), response.email(), response.userRole());
         return response;
     }
 
     @Override
     public UserResponse publicRegisterUser(UserRequest request) {
-        logger.info("Iniciando registro público de usuario - Email: {}, Documento: {}", 
-            request.email(), request.documentNumber());
+        logger.info("Iniciando registro público de usuario - Email: {}, Documento: {}",
+                request.email(), request.documentNumber());
 
         if(userRepository.existsByEmail(request.email())){
-            logger.warn("Intento de registro público con email duplicado: {}", request.email());
             throw new ResourceAlreadyExistsException("El email ya se encuentra registrado.");
         }
 
         if(userRepository.existsByPersonalInformation_DocumentNumber(request.documentNumber())){
-            logger.warn("Intento de registro público con número de documento duplicado: {}", request.documentNumber());
             throw new ResourceAlreadyExistsException("El número de documento ya se encuentra registrado.");
         }
 
-        logger.debug("Validaciones de duplicados exitosas, creando nuevo usuario miembro");
-        // Mapear el DTO a la entidad User
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(UserRole.MEMBER); // Se asigna el rol de MEMBER de forma automática
+        user.setRole(UserRole.MEMBER);
 
-        // Mapear la información del DTO al objeto embebido
         PersonalInformation personalInformation = getPersonalInformation(request);
         user.setPersonalInformation(personalInformation);
 
-        // Guardar el usuario en la base de datos
-        UserResponse response = getUserResponse(user);
-        logger.info("Usuario registrado exitosamente de forma pública - ID: {}, Email: {}, Rol: {}", 
-            response.idUser(), response.email(), response.userRole());
+        // 🔥 Guardar primero
+        User savedUser = userRepository.save(user);
+
+        // 🚀 Retornar la respuesta con los datos persistidos
+        UserResponse response = getUserResponse(savedUser);
+        logger.info("Usuario registrado exitosamente de forma pública - ID: {}, Email: {}, Rol: {}",
+                response.idUser(), response.email(), response.userRole());
+
         return response;
     }
+
 
     /**
      * Extrae la información personal de un DTO de solicitud.
@@ -139,9 +147,12 @@ public class UserServiceImpl implements IUserService{
      * @return Un nuevo objeto PersonalInformation
      */
     private static PersonalInformation getPersonalInformation(UserRequest request) {
-        logger.debug("Mapeando información personal del usuario - Nombre: {}, Apellido: {}", 
+<<<<<<< HEAD
+        logger.debug("Mapeando información personal del usuario - Nombre: {}, Apellido: {}",
             request.firstName(), request.lastName());
-        
+
+=======
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setFirstName(request.firstName());
         personalInformation.setLastName(request.lastName());
@@ -151,7 +162,7 @@ public class UserServiceImpl implements IUserService{
         personalInformation.setMedicalConditions(request.medicalConditions());
         personalInformation.setEmergencyContactPhone(request.emergencyContactPhone());
         personalInformation.setPhoneNumber(request.phoneNumber());
-        
+
         logger.debug("Información personal mapeada exitosamente");
         return personalInformation;
     }
@@ -163,19 +174,24 @@ public class UserServiceImpl implements IUserService{
      * @return
      */
     @Override
+<<<<<<< HEAD
     public UserResponse updateUser(Long idUser, UserUpdateRequest request) {
         logger.info("Iniciando actualización de usuario - ID: {}", idUser);
-        logger.debug("Campos a actualizar - Nombre: {}, Apellido: {}, Email: {}, Documento: {}", 
+        logger.debug("Campos a actualizar - Nombre: {}, Apellido: {}, Email: {}, Documento: {}",
             request.firstName(), request.lastName(), request.email(), request.documentNumber());
 
         // Buscar el usuario por su ID. Si no existe, lanzar una excepción.
+=======
+    public UserResponse updateUser(Long idUser, UserRequest request) {
+        // 1. Buscar el usuario por su ID. Si no existe, lanzar una excepción.
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         User existingUser = userRepository.findById(idUser)
                 .orElseThrow(() -> {
                     logger.error("Usuario no encontrado para actualización con ID: {}", idUser);
                     return new UserNotFoundException("Usuario no encontrado con el ID: " + idUser);
                 });
 
-        logger.debug("Usuario encontrado para actualización: {} (ID: {})", 
+        logger.debug("Usuario encontrado para actualización: {} (ID: {})",
             existingUser.getPersonalInformation().getFirstName(), idUser);
 
         // Actualizar solo los campos que no son nulos en la solicitud
@@ -259,7 +275,8 @@ public class UserServiceImpl implements IUserService{
      */
     private static PersonalInformation getPersonalInformation(UserRequest request, User existingUser) {
         logger.debug("Actualizando información personal del usuario existente - ID: {}", existingUser.getIdUser());
-        
+
+<<<<<<< HEAD
         PersonalInformation personalInfo = existingUser.getPersonalInformation();
         personalInfo.setFirstName(request.firstName());
         personalInfo.setLastName(request.lastName());
@@ -269,8 +286,32 @@ public class UserServiceImpl implements IUserService{
         personalInfo.setPhoneNumber(request.phoneNumber());
         personalInfo.setMedicalConditions(request.medicalConditions());
         personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
-        
+=======
+        // 5. Actualizar los objetos embebidos
+        PersonalInformation personalInfo = getPersonalInformation(request, existingUser);
+        existingUser.setPersonalInformation(personalInfo);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
+
         logger.debug("Información personal del usuario existente actualizada exitosamente");
+        return personalInfo;
+    }
+
+    /**
+     * Actualiza la información personal del usuario existente con los datos del request
+     * @param request Objeto que contiene los datos actualizados del usuario
+     * @param existingUser Usuario existente en la base de datos
+     * @return Objeto PersonalInformation actualizado
+     */
+    private static PersonalInformation getPersonalInformation(UserRequest request, User existingUser) {
+        PersonalInformation personalInfo = existingUser.getPersonalInformation();
+        personalInfo.setFirstName(request.firstName());
+        personalInfo.setLastName(request.lastName());
+        personalInfo.setDocumentType(request.documentType());
+        personalInfo.setDocumentNumber(request.documentNumber());
+        personalInfo.setBirthDate(request.birthDate());
+        personalInfo.setPhoneNumber(request.phoneNumber());
+        personalInfo.setMedicalConditions(request.medicalConditions());
+        personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
         return personalInfo;
     }
 
@@ -288,9 +329,9 @@ public class UserServiceImpl implements IUserService{
                     return new UserNotFoundException("Usuario no encontrado con el ID: " + idUser);
                 });
 
-        logger.debug("Usuario encontrado para eliminación: {} (ID: {})", 
+        logger.debug("Usuario encontrado para eliminación: {} (ID: {})",
             user.getPersonalInformation().getFirstName(), idUser);
-        
+
         user.setActive(false);
         userRepository.save(user);
         logger.info("Usuario desactivado exitosamente - ID: {}, Email: {}", idUser, user.getEmail());
@@ -311,7 +352,7 @@ public class UserServiceImpl implements IUserService{
                     return new UserNotFoundException("El id ingresado no existe");
                 });
 
-        logger.debug("Usuario encontrado por ID: {} (ID: {})", 
+        logger.debug("Usuario encontrado por ID: {} (ID: {})",
             user.getPersonalInformation().getFirstName(), idUser);
 
         return new UserResponse(
@@ -374,7 +415,7 @@ public class UserServiceImpl implements IUserService{
                     return new UserNotFoundException("El email ingresado no existe");
                 });
 
-        logger.debug("Usuario encontrado por email: {} (ID: {})", 
+        logger.debug("Usuario encontrado por email: {} (ID: {})",
             user.getPersonalInformation().getFirstName(), user.getIdUser());
 
         return new UserResponse(
@@ -408,7 +449,7 @@ public class UserServiceImpl implements IUserService{
                     return new UserNotFoundException("El número de documento ingresado no existe");
                 });
 
-        logger.debug("Usuario encontrado por documento: {} (ID: {})", 
+        logger.debug("Usuario encontrado por documento: {} (ID: {})",
             user.getPersonalInformation().getFirstName(), user.getIdUser());
 
         return new UserResponse(
@@ -426,4 +467,30 @@ public class UserServiceImpl implements IUserService{
                 user.getCreatedAt()
         );
     }
+
+    @Override
+    public boolean validateCredentials(LoginRequest request) {
+        return false;
+    }
+
+    @Override
+    public String generateOTP(String email) {
+        return "";
+    }
+
+    @Override
+    public void sendOTPEmail(String email, String otp) {
+
+    }
+
+    @Override
+    public boolean validateOTP(String email, String otp) {
+        return false;
+    }
+
+    @Override
+    public String loginAfterOTP(String email) {
+        return "";
+    }
+
 }
