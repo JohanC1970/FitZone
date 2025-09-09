@@ -18,7 +18,11 @@ public interface LocationRepository extends JpaRepository<Location,Long> {
      * @param name El nombre de la ubicación a verificar.
      * @return true si la ubicación existe, false en caso contrario.
      */
+<<<<<<< HEAD
     boolean existsByName(String name);
+=======
+    boolean existByName(String name);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
     /**
      * Verifica si una sede con el número de teléfono dado existe.
@@ -46,7 +50,11 @@ public interface LocationRepository extends JpaRepository<Location,Long> {
      * @param franchiseId El ID de la franquicia.
      * @return Una lista de objetos Location que pertenecen a la franquicia dada.
      */
+<<<<<<< HEAD
     List<Location> findByFranchiseIdFranchise(Long franchiseId);
+=======
+    List<Location> findByFranchiseId(Long franchiseId);
+>>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
     /**
      * Busca una lista de sedes que estén activas.

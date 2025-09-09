@@ -6,9 +6,6 @@ import co.edu.uniquindio.FitZone.model.entity.Timeslot;
 
 import java.util.Set;
 
-/**
- * Interfaz que define los servicios relacionados con las franquicias.
- */
 public interface IFranchiseService {
 
     /**

@@ -11,9 +11,6 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Clase encargada de inicializar los datos de la franquicia y sus horarios en la base de datos al iniciar la aplicación.
- */
 @Component
 public class FranchiseInitializer implements CommandLineRunner {
 
