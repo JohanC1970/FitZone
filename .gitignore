@@ -1,0 +1,19 @@
+@"
+# Development files with secrets
+application-dev.properties
+src/main/resources/application-dev.properties
+*.env
+.env.*
+
+# Build directories
+target/
+build/
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
