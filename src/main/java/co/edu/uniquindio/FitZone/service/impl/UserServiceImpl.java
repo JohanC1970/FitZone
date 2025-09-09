@@ -1,12 +1,8 @@
 package co.edu.uniquindio.FitZone.service.impl;
 
-<<<<<<< HEAD
 import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
 import co.edu.uniquindio.FitZone.dto.request.UserRequest;
 import co.edu.uniquindio.FitZone.dto.request.UserUpdateRequest;
-=======
-import co.edu.uniquindio.FitZone.dto.request.UserRequest;
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 import co.edu.uniquindio.FitZone.exception.ResourceAlreadyExistsException;
 import co.edu.uniquindio.FitZone.exception.UnauthorizedRegistrationException;
@@ -50,11 +46,8 @@ public class UserServiceImpl implements IUserService{
      */
     @Override
     public UserResponse registerUser(UserRequest request) {
-<<<<<<< HEAD
         logger.info("Iniciando registro de usuario por administrador - Email: {}, Rol: {}",
             request.email(), request.role());
-=======
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
         //Obtener el rol del usuario autenticado que está realizando la solicitud
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -147,12 +140,9 @@ public class UserServiceImpl implements IUserService{
      * @return Un nuevo objeto PersonalInformation
      */
     private static PersonalInformation getPersonalInformation(UserRequest request) {
-<<<<<<< HEAD
         logger.debug("Mapeando información personal del usuario - Nombre: {}, Apellido: {}",
             request.firstName(), request.lastName());
 
-=======
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setFirstName(request.firstName());
         personalInformation.setLastName(request.lastName());
@@ -174,17 +164,12 @@ public class UserServiceImpl implements IUserService{
      * @return
      */
     @Override
-<<<<<<< HEAD
     public UserResponse updateUser(Long idUser, UserUpdateRequest request) {
         logger.info("Iniciando actualización de usuario - ID: {}", idUser);
         logger.debug("Campos a actualizar - Nombre: {}, Apellido: {}, Email: {}, Documento: {}",
             request.firstName(), request.lastName(), request.email(), request.documentNumber());
 
         // Buscar el usuario por su ID. Si no existe, lanzar una excepción.
-=======
-    public UserResponse updateUser(Long idUser, UserRequest request) {
-        // 1. Buscar el usuario por su ID. Si no existe, lanzar una excepción.
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
         User existingUser = userRepository.findById(idUser)
                 .orElseThrow(() -> {
                     logger.error("Usuario no encontrado para actualización con ID: {}", idUser);
@@ -276,7 +261,6 @@ public class UserServiceImpl implements IUserService{
     private static PersonalInformation getPersonalInformation(UserRequest request, User existingUser) {
         logger.debug("Actualizando información personal del usuario existente - ID: {}", existingUser.getIdUser());
 
-<<<<<<< HEAD
         PersonalInformation personalInfo = existingUser.getPersonalInformation();
         personalInfo.setFirstName(request.firstName());
         personalInfo.setLastName(request.lastName());
@@ -286,32 +270,8 @@ public class UserServiceImpl implements IUserService{
         personalInfo.setPhoneNumber(request.phoneNumber());
         personalInfo.setMedicalConditions(request.medicalConditions());
         personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
-=======
-        // 5. Actualizar los objetos embebidos
-        PersonalInformation personalInfo = getPersonalInformation(request, existingUser);
-        existingUser.setPersonalInformation(personalInfo);
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
         logger.debug("Información personal del usuario existente actualizada exitosamente");
-        return personalInfo;
-    }
-
-    /**
-     * Actualiza la información personal del usuario existente con los datos del request
-     * @param request Objeto que contiene los datos actualizados del usuario
-     * @param existingUser Usuario existente en la base de datos
-     * @return Objeto PersonalInformation actualizado
-     */
-    private static PersonalInformation getPersonalInformation(UserRequest request, User existingUser) {
-        PersonalInformation personalInfo = existingUser.getPersonalInformation();
-        personalInfo.setFirstName(request.firstName());
-        personalInfo.setLastName(request.lastName());
-        personalInfo.setDocumentType(request.documentType());
-        personalInfo.setDocumentNumber(request.documentNumber());
-        personalInfo.setBirthDate(request.birthDate());
-        personalInfo.setPhoneNumber(request.phoneNumber());
-        personalInfo.setMedicalConditions(request.medicalConditions());
-        personalInfo.setEmergencyContactPhone(request.emergencyContactPhone());
         return personalInfo;
     }
 

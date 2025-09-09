@@ -7,13 +7,10 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
 /**
  * Repositorio para la entidad MembershipType.
  * Proporciona métodos para realizar operaciones CRUD y consultas personalizadas.
  */
-=======
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 public interface MembershipTypeRepository extends CrudRepository<MembershipType, Long> {
 
     /**

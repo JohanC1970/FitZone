@@ -59,12 +59,6 @@ public class User {
     @Column(name = "password_reset_token_expiry_date")
     private LocalDateTime passwordResetTokenExpiryDate;
 
-    @Column(name = "otp")
-    private String otp;
-
-    @Column(name = "otp_expiry_date")
-    private LocalDateTime otpExpiryDate;
-
     public User(Long idUser, String email, String password, Location mainLocation, UserRole role, PersonalInformation personalInformation) {
         this.idUser = idUser;
         this.email = email;

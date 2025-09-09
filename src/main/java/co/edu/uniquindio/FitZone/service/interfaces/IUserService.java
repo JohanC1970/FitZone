@@ -1,11 +1,8 @@
 package co.edu.uniquindio.FitZone.service.interfaces;
 
 import co.edu.uniquindio.FitZone.dto.request.UserRequest;
-<<<<<<< HEAD
 import co.edu.uniquindio.FitZone.dto.request.UserUpdateRequest;
 import co.edu.uniquindio.FitZone.dto.request.LoginRequest;
-=======
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 import co.edu.uniquindio.FitZone.dto.response.UserResponse;
 
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.List;
  */
 public interface IUserService {
 
-<<<<<<< HEAD
     // ----------------- USUARIO -----------------
 
     UserResponse registerUser(UserRequest request);
@@ -26,24 +22,6 @@ public interface IUserService {
     UserResponse publicRegisterUser(UserRequest request);
 
     UserResponse updateUser(Long idUser, UserUpdateRequest request);
-=======
-    /**
-     * Registra un nuevo usuario en el sistema.
-     * Este método recibe un objeto CreateUserRequest que contiene la información necesaria para crear un usuario
-     * @param request objeto que contiene los datos del usuario a registrar
-     * @return UserResonse objeto que representa la respuesta del registro del usuario
-     */
-    UserResponse registerUser(UserRequest request);
-
-    /**
-     * Actualiza la información de un usuario existente.
-     * Este método recibe un ID de usuario y un objeto CreateUserRequest que contiene los datos actualizados del usuario.
-     * @param idUser ID del usuario a actualizar
-     * @param request objeto que contiene los datos actualizados del usuario
-     * @return UserResponse objeto que contiene la información actualizada del usuario
-     */
-    UserResponse updateUser(Long idUser, UserRequest request);
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
     void deleteUser(Long idUser);
 

@@ -43,14 +43,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleMembershipTypeNotFoundException(MembershipTypeNotFoundException exception){
         return buildResponseEntity(HttpStatus.NOT_FOUND, "No encontrado", exception.getMessage());
     }
-<<<<<<< HEAD
 
     @ExceptionHandler(UnauthorizedRegistrationException.class)
     public ResponseEntity<Object> handleUnauthorizedRegistrationException(UnauthorizedRegistrationException exception){
         return buildResponseEntity(HttpStatus.UNAUTHORIZED, "Unauthorized", exception.getMessage());
     }
-=======
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
 
     // Manejo de errores de validación
     @ExceptionHandler(MethodArgumentNotValidException.class)

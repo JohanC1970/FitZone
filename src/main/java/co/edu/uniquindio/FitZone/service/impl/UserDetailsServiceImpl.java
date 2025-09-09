@@ -4,15 +4,12 @@ import co.edu.uniquindio.FitZone.model.entity.User;
 import co.edu.uniquindio.FitZone.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Clase que implementa UserDetailsService para cargar los detalles del usuario
@@ -49,14 +46,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         logger.debug("Usuario encontrado para autenticación - ID: {}, Nombre: {}, Email: {}", 
             user.getIdUser(), user.getPersonalInformation().getFirstName(), email);
 
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole());
-
+        //Por ahora, solo usamos el email y la contraseña
         logger.debug("Creando UserDetails para Spring Security - Email: {}", email);
-        return new CustomUserDetails(
-                user.getIdUser(),
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(authority)
-        );
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }
