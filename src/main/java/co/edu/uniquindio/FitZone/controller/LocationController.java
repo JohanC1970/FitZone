@@ -3,32 +3,18 @@ package co.edu.uniquindio.FitZone.controller;
 import co.edu.uniquindio.FitZone.dto.request.LocationRequest;
 import co.edu.uniquindio.FitZone.dto.response.LocationResponse;
 import co.edu.uniquindio.FitZone.service.interfaces.ILocationService;
-<<<<<<< HEAD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-=======
->>>>>>> df32851 (Se crearon los controladores para los servicios de Location y MembershipType)
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> df32851 (Se crearon los controladores para los servicios de Location y MembershipType)
 import java.util.List;
 
 /**
  * Controlador para gestionar las ubicaciones.
  * Proporciona endpoints para crear, actualizar y obtener ubicaciones.
-<<<<<<< HEAD
-=======
-/**
- * Controlador para gestionar las sedes.
->>>>>>> bc96e7c (Se documentaron algunas clases faltantes y se agregó la clase service para MembershipType)
-=======
->>>>>>> df32851 (Se crearon los controladores para los servicios de Location y MembershipType)
  */
 @RestController
 @RequestMapping("/locations")
@@ -45,79 +31,37 @@ public class LocationController {
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')") // Solo los administradores pueden crear ubicaciones
     public ResponseEntity<LocationResponse> registerLocation(@RequestBody LocationRequest request) {
-<<<<<<< HEAD
         logger.info("POST /locations - Registro de nueva ubicación solicitado por administrador");
-        logger.debug("Datos de ubicación recibidos - Nombre: {}, Dirección: {}, Teléfono: {}", 
-            request.name(), request.address(), request.phoneNumber());
-        
+        logger.debug("Datos de ubicación recibidos - Nombre: {}, Dirección: {}, Teléfono: {}",
+                request.name(), request.address(), request.phoneNumber());
+
         try {
             LocationResponse response = locationService.registerLocation(request);
-            logger.info("Ubicación registrada exitosamente - ID: {}, Nombre: {}, Dirección: {}", 
-                response.idLocation(), response.name(), response.address());
+            logger.info("Ubicación registrada exitosamente - ID: {}, Nombre: {}, Dirección: {}",
+                    response.idLocation(), response.name(), response.address());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            logger.error("Error al registrar ubicación - Nombre: {}, Error: {}", 
-                request.name(), e.getMessage(), e);
+            logger.error("Error al registrar ubicación - Nombre: {}, Error: {}",
+                    request.name(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-=======
-        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.registerLocation(request));
-    }
-
-    @PutMapping("/{idLocation}")
-    @PreAuthorize("hasAuthority('ADMIN')") // Solo los administradores pueden actualizar ubicaciones
-    public ResponseEntity<LocationResponse> updateLocation(@PathVariable Long idLocation, @RequestBody LocationRequest request) {
-        return ResponseEntity.ok(locationService.updateLocation(idLocation, request));
-    }
-
-    @PutMapping("/{idLocation}/deactivate")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> deactivateLocation(@PathVariable Long idLocation) {
-        locationService.deleteLocation(idLocation);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{idLocation}")
-    public ResponseEntity<LocationResponse> getLocationById(@PathVariable Long idLocation) {
-        return ResponseEntity.ok(locationService.getLocationById(idLocation));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<LocationResponse>> getAllLocations() {
-        return ResponseEntity.ok(locationService.getAllLocations());
-    }
-
-    @GetMapping("/by-phone")
-    public ResponseEntity<LocationResponse> getLocationByPhoneNumber(@RequestParam String phoneNumber) {
-        return ResponseEntity.ok(locationService.getLocationByPhoneNumber(phoneNumber));
-    }
-
-    @GetMapping("/by-address")
-    public ResponseEntity<LocationResponse> getLocationByAddress(@RequestParam String address) {
-        return ResponseEntity.ok(locationService.getLocationAddress(address));
-    }
-
-    @GetMapping("/by-name")
-    public ResponseEntity<LocationResponse> getLocationByName(@RequestParam String name) {
-        return ResponseEntity.ok(locationService.getByName(name));
->>>>>>> df32851 (Se crearon los controladores para los servicios de Location y MembershipType)
     }
 
     @PutMapping("/{idLocation}")
     @PreAuthorize("hasAuthority('ADMIN')") // Solo los administradores pueden actualizar ubicaciones
     public ResponseEntity<LocationResponse> updateLocation(@PathVariable Long idLocation, @RequestBody LocationRequest request) {
         logger.info("PUT /locations/{} - Actualización de ubicación solicitada por administrador", idLocation);
-        logger.debug("Datos de actualización recibidos - Nombre: {}, Dirección: {}, Teléfono: {}", 
-            request.name(), request.address(), request.phoneNumber());
-        
+        logger.debug("Datos de actualización recibidos - Nombre: {}, Dirección: {}, Teléfono: {}",
+                request.name(), request.address(), request.phoneNumber());
+
         try {
             LocationResponse response = locationService.updateLocation(idLocation, request);
-            logger.info("Ubicación actualizada exitosamente - ID: {}, Nombre: {}, Dirección: {}", 
-                response.idLocation(), response.name(), response.address());
+            logger.info("Ubicación actualizada exitosamente - ID: {}, Nombre: {}, Dirección: {}",
+                    response.idLocation(), response.name(), response.address());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error al actualizar ubicación - ID: {}, Error: {}", 
-                idLocation, e.getMessage(), e);
+            logger.error("Error al actualizar ubicación - ID: {}, Error: {}",
+                    idLocation, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -126,14 +70,14 @@ public class LocationController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deactivateLocation(@PathVariable Long idLocation) {
         logger.info("PUT /locations/{}/deactivate - Desactivación de ubicación solicitada por administrador", idLocation);
-        
+
         try {
             locationService.deleteLocation(idLocation);
             logger.info("Ubicación desactivada exitosamente - ID: {}", idLocation);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            logger.error("Error al desactivar ubicación - ID: {}, Error: {}", 
-                idLocation, e.getMessage(), e);
+            logger.error("Error al desactivar ubicación - ID: {}, Error: {}",
+                    idLocation, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -141,15 +85,15 @@ public class LocationController {
     @GetMapping("/{idLocation}")
     public ResponseEntity<LocationResponse> getLocationById(@PathVariable Long idLocation) {
         logger.debug("GET /locations/{} - Consulta de ubicación por ID", idLocation);
-        
+
         try {
             LocationResponse response = locationService.getLocationById(idLocation);
-            logger.debug("Ubicación encontrada por ID - ID: {}, Nombre: {}", 
-                idLocation, response.name());
+            logger.debug("Ubicación encontrada por ID - ID: {}, Nombre: {}",
+                    idLocation, response.name());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error al consultar ubicación por ID - ID: {}, Error: {}", 
-                idLocation, e.getMessage(), e);
+            logger.error("Error al consultar ubicación por ID - ID: {}, Error: {}",
+                    idLocation, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -157,7 +101,7 @@ public class LocationController {
     @GetMapping
     public ResponseEntity<List<LocationResponse>> getAllLocations() {
         logger.debug("GET /locations - Consulta de todas las ubicaciones activas");
-        
+
         try {
             List<LocationResponse> locations = locationService.getAllLocations();
             logger.debug("Se encontraron {} ubicaciones activas", locations.size());
@@ -171,15 +115,15 @@ public class LocationController {
     @GetMapping("/by-phone")
     public ResponseEntity<LocationResponse> getLocationByPhoneNumber(@RequestParam String phoneNumber) {
         logger.debug("GET /locations/by-phone - Consulta de ubicación por número de teléfono: {}", phoneNumber);
-        
+
         try {
             LocationResponse response = locationService.getLocationByPhoneNumber(phoneNumber);
-            logger.debug("Ubicación encontrada por teléfono - Teléfono: {}, Nombre: {}, ID: {}", 
-                phoneNumber, response.name(), response.idLocation());
+            logger.debug("Ubicación encontrada por teléfono - Teléfono: {}, Nombre: {}, ID: {}",
+                    phoneNumber, response.name(), response.idLocation());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error al consultar ubicación por teléfono - Teléfono: {}, Error: {}", 
-                phoneNumber, e.getMessage(), e);
+            logger.error("Error al consultar ubicación por teléfono - Teléfono: {}, Error: {}",
+                    phoneNumber, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -187,15 +131,15 @@ public class LocationController {
     @GetMapping("/by-address")
     public ResponseEntity<LocationResponse> getLocationByAddress(@RequestParam String address) {
         logger.debug("GET /locations/by-address - Consulta de ubicación por dirección: {}", address);
-        
+
         try {
             LocationResponse response = locationService.getLocationAddress(address);
-            logger.debug("Ubicación encontrada por dirección - Dirección: {}, Nombre: {}, ID: {}", 
-                address, response.name(), response.idLocation());
+            logger.debug("Ubicación encontrada por dirección - Dirección: {}, Nombre: {}, ID: {}",
+                    address, response.name(), response.idLocation());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error al consultar ubicación por dirección - Dirección: {}, Error: {}", 
-                address, e.getMessage(), e);
+            logger.error("Error al consultar ubicación por dirección - Dirección: {}, Error: {}",
+                    address, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -203,15 +147,15 @@ public class LocationController {
     @GetMapping("/by-name")
     public ResponseEntity<LocationResponse> getLocationByName(@RequestParam String name) {
         logger.debug("GET /locations/by-name - Consulta de ubicación por nombre: {}", name);
-        
+
         try {
             LocationResponse response = locationService.getByName(name);
-            logger.debug("Ubicación encontrada por nombre - Nombre: {}, ID: {}", 
-                name, response.idLocation());
+            logger.debug("Ubicación encontrada por nombre - Nombre: {}, ID: {}",
+                    name, response.idLocation());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error al consultar ubicación por nombre - Nombre: {}, Error: {}", 
-                name, e.getMessage(), e);
+            logger.error("Error al consultar ubicación por nombre - Nombre: {}, Error: {}",
+                    name, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
