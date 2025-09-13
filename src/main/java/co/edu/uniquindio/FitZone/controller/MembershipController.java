@@ -8,7 +8,6 @@ import co.edu.uniquindio.FitZone.integration.payment.MercadoPagoService;
 import co.edu.uniquindio.FitZone.dto.request.CreateMembershipRequest;
 import co.edu.uniquindio.FitZone.dto.request.SuspendMembershipRequest;
 import co.edu.uniquindio.FitZone.dto.response.MembershipResponse;
-import co.edu.uniquindio.FitZone.integration.payment.StripeService;
 import co.edu.uniquindio.FitZone.service.interfaces.IMembershipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

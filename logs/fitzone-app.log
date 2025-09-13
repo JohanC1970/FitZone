@@ -1024,3 +1024,131 @@ java.lang.RuntimeException: Error al verificar el pago con Stripe: You passed a 
 2025-09-06 18:43:19.743 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-09-06 18:43:19.746 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-09-06 18:43:19.753 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-13 15:15:05.136 [main] INFO  c.e.u.FitZone.FitZoneApplication - Starting FitZoneApplication using Java 21.0.8 with PID 5932 (D:\Software 3\Project-FitZone\FitZone - Backend\target\classes started by garci in D:\Software 3\Project-FitZone\FitZone - Backend)
+2025-09-13 15:15:05.141 [main] INFO  c.e.u.FitZone.FitZoneApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-13 15:15:06.300 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-13 15:15:06.410 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 95 ms. Found 5 JPA repository interfaces.
+2025-09-13 15:15:07.225 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-13 15:15:07.248 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-13 15:15:07.249 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-13 15:15:07.358 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-13 15:15:07.360 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2132 ms
+2025-09-13 15:15:07.566 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-13 15:15:07.629 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-13 15:15:07.673 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-09-13 15:15:08.179 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-13 15:15:08.221 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-13 15:15:08.505 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1bec1589
+2025-09-13 15:15:08.507 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-13 15:15:08.543 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-13 15:15:08.569 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.9
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-13 15:15:09.900 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-13 15:15:10.301 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:15:10.810 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-13 15:15:11.000 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-13 15:15:11.830 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-13 15:15:11.845 [main] INFO  c.e.u.FitZone.FitZoneApplication - Started FitZoneApplication in 7.52 seconds (process running for 8.386)
+2025-09-13 15:23:26.747 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-13 15:23:26.752 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-09-13 15:23:26.766 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:23:26.773 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-13 15:23:26.797 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-13 15:40:53.623 [main] INFO  c.e.u.FitZone.FitZoneApplication - Starting FitZoneApplication using Java 21.0.8 with PID 16144 (D:\Software 3\Project-FitZone\FitZone - Backend\target\classes started by garci in D:\Software 3\Project-FitZone\FitZone - Backend)
+2025-09-13 15:40:53.634 [main] INFO  c.e.u.FitZone.FitZoneApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-13 15:40:55.922 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-13 15:40:56.076 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 134 ms. Found 5 JPA repository interfaces.
+2025-09-13 15:40:58.581 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-13 15:40:58.615 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-13 15:40:58.616 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-13 15:40:59.136 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-13 15:40:59.138 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5418 ms
+2025-09-13 15:41:00.336 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-13 15:41:00.439 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-13 15:41:00.490 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-09-13 15:41:01.056 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-13 15:41:01.109 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-13 15:41:01.423 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@195498aa
+2025-09-13 15:41:01.425 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-13 15:41:01.469 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-13 15:41:01.490 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.9
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-13 15:41:03.022 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-13 15:41:03.429 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:41:04.063 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-13 15:41:04.331 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-13 15:41:05.136 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-13 15:41:05.181 [main] INFO  c.e.u.FitZone.FitZoneApplication - Started FitZoneApplication in 12.795 seconds (process running for 13.755)
+2025-09-13 15:41:47.856 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-13 15:41:47.856 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-13 15:41:47.858 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-09-13 15:41:48.036 [http-nio-8080-exec-3] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:41:48.040 [http-nio-8080-exec-3] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:44:23.980 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-13 15:44:23.989 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-09-13 15:44:23.994 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:44:23.996 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-13 15:44:24.015 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-13 15:44:29.885 [main] INFO  c.e.u.FitZone.FitZoneApplication - Starting FitZoneApplication using Java 21.0.8 with PID 19388 (D:\Software 3\Project-FitZone\FitZone - Backend\target\classes started by garci in D:\Software 3\Project-FitZone\FitZone - Backend)
+2025-09-13 15:44:29.888 [main] INFO  c.e.u.FitZone.FitZoneApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-13 15:44:31.714 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-13 15:44:31.992 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 261 ms. Found 5 JPA repository interfaces.
+2025-09-13 15:44:33.267 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-13 15:44:33.347 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-13 15:44:33.348 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-13 15:44:33.469 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-13 15:44:33.470 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3484 ms
+2025-09-13 15:44:33.860 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-13 15:44:33.986 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-13 15:44:34.054 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-09-13 15:44:34.445 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-13 15:44:34.499 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-13 15:44:34.760 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6e090aaa
+2025-09-13 15:44:34.762 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-13 15:44:34.796 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-13 15:44:34.821 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.9
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-13 15:44:36.961 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-13 15:44:37.404 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:44:39.095 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-13 15:44:39.562 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-13 15:44:40.701 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-13 15:44:40.721 [main] INFO  c.e.u.FitZone.FitZoneApplication - Started FitZoneApplication in 11.962 seconds (process running for 12.827)
+2025-09-13 15:45:38.141 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-13 15:45:38.142 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-13 15:45:38.143 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-09-13 15:45:38.283 [http-nio-8080-exec-2] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:45:38.284 [http-nio-8080-exec-2] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:48:27.717 [http-nio-8080-exec-5] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:48:27.718 [http-nio-8080-exec-5] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:48:44.278 [http-nio-8080-exec-7] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:48:44.279 [http-nio-8080-exec-7] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:48:44.319 [http-nio-8080-exec-7] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-13 15:53:37.846 [http-nio-8080-exec-9] INFO  c.e.u.F.controller.AuthController - POST /auth/login-2fa - Solicitud de login con 2FA para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:53:37.847 [http-nio-8080-exec-9] INFO  c.e.u.F.service.impl.AuthServiceImpl - Iniciando el proceso de login para el usuario con email: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:53:54.136 [http-nio-8080-exec-2] INFO  c.e.u.F.controller.AuthController - POST /auth/verify-otp - Verificación de OTP para usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:53:54.137 [http-nio-8080-exec-2] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificando OTP para el usuario: johanc.garciag@uqvirtual.edu.co
+2025-09-13 15:53:54.146 [http-nio-8080-exec-2] INFO  c.e.u.F.service.impl.AuthServiceImpl - Verificación de OTP exitosa para johanc.garciag@uqvirtual.edu.co. Token JWT generado.
+2025-09-13 15:54:57.953 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-13 15:54:57.958 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-09-13 15:54:57.964 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-13 15:54:57.970 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-13 15:54:57.993 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

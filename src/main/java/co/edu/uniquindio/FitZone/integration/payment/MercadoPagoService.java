@@ -72,7 +72,7 @@ public class MercadoPagoService {
                     .failure("http://localhost:4200/payment-failure")
                     .build();
 
-            String notificationUrl = "http://tudominio.com/api/mercadopago/notifications";
+            String notificationUrl = "https://aa9fab26770b.ngrok-free.app";
 
             // ✅ Modificación: Combinar los IDs en un solo String para la externalReference
             String externalReference = String.format("%d_%d_%d",
